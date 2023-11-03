@@ -1,0 +1,234 @@
+// backend apis implementations
+
+const fetchDomain = "localhost"
+
+
+// api base
+const apiPost = (path, body) => {
+    return new Promise((resolve, reject) => {
+        fetch('http://'+fetchDomain+':5005/' + path, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.error) {
+                reject(response.error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+};
+
+const apiPostAuth = (path, token, body) => {
+    return new Promise((resolve, reject) => {
+        fetch('http://'+fetchDomain+':5005/' + path, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer `+token
+            },
+            body: JSON.stringify(body)
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.error) {
+                reject(response.error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+};
+
+const apiGet = (path, queryString) => {
+    return new Promise((resolve, reject) => {
+        fetch('http://'+fetchDomain+':5005/' + path + '?' + queryString, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+            }
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.error) {
+                reject(response.error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+};
+
+const apiGetAuth = (path, token, queryString) => {
+    return new Promise((resolve, reject) => {
+        fetch('http://'+fetchDomain+':5005/' + path + '?' + queryString, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.error) {
+                reject(response.error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+};
+
+const apiPutAuth = (path, token, body) => {
+    return new Promise((resolve, reject) => {
+        fetch('http://'+fetchDomain+':5005/' + path, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer `+token
+            },
+            body: JSON.stringify(body)
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.error) {
+                reject(response.error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+};
+
+const apiDeleteAuth = (path, token) => {
+    return new Promise((resolve, reject) => {
+        fetch('http://'+fetchDomain+':5005/' + path, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer `+token
+            }
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            if (response.error) {
+                reject(response.error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
+};
+
+
+// api calls
+// POST /user/auth/register
+export const authRegister = (email, password, name) => {
+    return apiPost("user/auth/register", {
+        "email": email,
+        "password": password,
+        "name": name
+    });
+}
+
+// POST /user/auth/login
+export const authLogin = (email, password) => {
+    return apiPost("auth/login", {
+        "email": email,
+        "password": password
+    });
+}
+
+// POST /user/auth/logout
+export const authLogout = (token) => {
+    return apiPostAuth("auth/logout", token, {});
+}
+
+// GET /listings
+export const listGet = () => {
+    return apiGet("listings", "");
+}
+
+// POST /listings/new
+export const listCreate = (token, title, address, price, thumbnail, metadata) => {
+    return apiPostAuth("listings/new", token, {
+        "title": title,
+        "address": address,
+        "price": price,
+        "thumbnail": thumbnail,
+        "metadata": metadata
+    });
+}
+
+// GET /listings/{listingId}
+export const listDetail = (lid) => {
+    return apiGet("listings/"+lid, "");
+}
+
+// PUT /listings/{listingId}
+export const listUpdate = (token, lid, title, address, price, thumbnail, metadata) => {
+    return apiPutAuth("listings/"+lid, token, {
+        "title": title,
+        "address": address,
+        "price": price,
+        "thumbnail": thumbnail,
+        "metadata": metadata
+    });
+}
+
+// DELETE /listings/{listingId}
+export const listDelete = (token, lid) => {
+    return apiDeleteAuth("listings/"+lid, token);
+}
+
+// PUT /listings/publish/{listingId}
+export const listPublish = (token, lid, available) => {
+    return apiPutAuth("listings/publish/"+lid, token, {
+        "availability": available
+    });
+}
+
+// PUT /listings/unpublish/{listingId}
+export const listUnpublish = (token, lid) => {
+    return apiPutAuth("listings/unpublish/"+lid, token, {});
+}
+
+// PUT /listings/{listingId}/review/{bookingId}
+export const listReview = (token, lid, bid, review) => {
+    return apiPutAuth("listings/"+lid+"/review/"+bid, token, {
+        "review": review
+    });
+}
+
+// GET /bookings
+export const bookGet = (token) => {
+    return apiGetAuth("bookings", token, "");
+}
+
+// POST /bookings/new/{listingId}
+export const bookCreate = (token, lid, date, fee) => {
+    return apiPostAuth("bookings/new/"+lid, token, {
+        "dateRange": date,
+        "totalPrice": fee
+    });
+}
+
+// PUT /bookings/accept/{bookingId}
+export const bookAccept = (token, bid) => {
+    return apiPutAuth("bookings/accept/"+bid, token, {});
+}
+
+// PUT /bookings/decline/{bookingId}
+export const bookDecline = (token, bid) => {
+    return apiPutAuth("bookings/decline/"+bid, token, {});
+}
+
+// DELETE /bookings/{bookingId}
+export const bookDelete = (token, bid) => {
+    return apiDeleteAuth("bookings/"+bid, token);
+}
