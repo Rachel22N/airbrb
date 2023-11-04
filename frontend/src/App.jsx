@@ -1,8 +1,15 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import Airbrb from './Airbrb'
 
 function App () {
   return (
-    <>Let&apos;s go!</>
+    <>
+      <BrowserRouter>
+        <Airbrb />
+      </BrowserRouter>
+    </>
   );
 }
 
