@@ -1,12 +1,15 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-// import components
-import InterfaceHeader from './components/InterfaceHeader';
+import PageHome from './components/PageHome';
 
+// TODO: routers
 function Airbrb () {
   return (
     <>
-      {/* TODO */}
+      <Routes>
+        <Route path='/' element={<PageHome />} />
+      </Routes>
     </>
   )
 }
