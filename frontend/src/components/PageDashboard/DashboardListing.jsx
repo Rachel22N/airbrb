@@ -4,7 +4,7 @@
 import React from 'react';
 
 // TODO: load listings
-function HomeListing (props) {
+function DashboardListing (props) {
   // props
   // style
   const container = {
@@ -14,8 +14,8 @@ function HomeListing (props) {
   }
 
   return (
-    <section id='home-listing' style={container}></section>
+    <section id='dashboard-listing' style={container}></section>
   )
 }
 
-export default HomeListing;
+export default DashboardListing;

@@ -1,0 +1,47 @@
+.item-property-generic {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+}
+.item-property-generic:hover {
+    border: 2px solid black;
+    background-color: #EEEEEE;
+}
+
+.item-property-generic-thumb {
+    width: 150px;
+    height: 100%;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.item-property-generic-infoframe {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-property-generic-pid {
+    font-size: smaller;
+    color: gray;
+}
+
+.item-property-generic-title {
+    font-size: x-large;
+    font-weight: bolder;
+}
+
+.item-property-generic-reviews {
+    font-size: smaller;
+    color: gray;
+}
+
+.item-property-generic-price {
+    font-size: x-large;
+    font-weight: bolder;
+}

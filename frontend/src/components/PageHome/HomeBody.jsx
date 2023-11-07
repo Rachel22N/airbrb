@@ -9,7 +9,7 @@ function HomeBody () {
   // style
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', minHeight: '100vh' }}>
       <HomeSearchGroup />
       <HomeListing />
     </div>

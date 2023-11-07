@@ -27,19 +27,19 @@ function InterfaceHeader (props) {
       {
         // depend on if user logined
         uid
-          ? <section style={cssHeaderButton}><HeaderButton
-            innerText='Dashboard'
-            action={
-              // TODO: click to dashboard
-              alert('TODO')
-            }
-          /></section>
-          : <section style={cssHeaderButton}><HeaderButton
-            innerText='Login/Sign Up'
-            action={
-              navigate('/login')
-            }
-          /></section>
+          ? <>
+            <section style={cssHeaderButton}>
+              <HeaderButton innerText='Dashboard' action={navigate('/dashboard')} />
+            </section>
+            <section style={cssHeaderButton}>
+              <HeaderButton innerText='Logout' action={
+                navigate('/')
+              } />
+            </section>
+          </>
+          : <section style={cssHeaderButton}>
+            <HeaderButton innerText='Login/Sign Up' action={navigate('/login')} />
+          </section>
       }
     </div>
   )
