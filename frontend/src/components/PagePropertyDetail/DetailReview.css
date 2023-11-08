@@ -1,0 +1,17 @@
+.detailreview-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.detailreview-reviewcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.detailreview-item {
+    width: 100%;
+    margin: 10px 0;
+}
