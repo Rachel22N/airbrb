@@ -1,8 +1,7 @@
 import React from 'react';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 import { bookGet } from '../../apis';
-
-import './ApplicantSection.css';
 
 function ApplicantBooking (props) {
   // props
@@ -12,19 +11,24 @@ function ApplicantBooking (props) {
   function myBookings () {
     bookGet(token)
       .then((res) => {
-        const bookings = res.bookings.filter((x) => x.owner === uemail);
-        return bookings.map((x) => <section className='booking-iem' key={x.id}>From {x.dateRange.start} To {x.dateRange.end}</section>);
+        return res.bookings.filter((x) => x.owner === uemail);
       })
       .catch((res) => {
         // todo: error popup
         alert(res);
       })
   }
+  const bList = myBookings();
 
   return (
-    <div className='booking-container'>
-      {myBookings()}
-    </div>
+    <ListGroup>
+      {
+        bList &&
+        bList.map((x, idx) =>
+          <ListGroup.Item key={idx}>From {x.dateRange.start} To {x.dateRange.end}</ListGroup.Item>
+        )
+      }
+    </ListGroup>
   )
 }
 

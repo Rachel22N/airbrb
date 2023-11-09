@@ -1,7 +1,10 @@
 import React from 'react';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 import { listDetail } from '../../apis';
-import './DetailReview.css';
 
 function DetailReview (props) {
   // props
@@ -21,18 +24,22 @@ function DetailReview (props) {
   const rateAvg = rateSun / pReview.length;
 
   return (
-    <div className='detailreview-container'>
-      <section>Rating: {rateAvg} &#xF586;</section>
-      <section className='detailreview-reviewcontainer'>
-        { pReview.map((x, idx) =>
-          <section className='detailreview-item' key={idx}>
-            <section>{x.user}</section>
-            <section>&#xF586; {rateAvg}</section>
-            <p>{x.review}</p>
-          </section>
-        ) }
-      </section>
-    </div>
+    <Container fluid>
+      <Row>
+        <Col>Rating: {rateAvg} &#xF586;</Col>
+      </Row>
+      <Row>
+        <Col><ListGroup>
+          { pReview.map((x, idx) =>
+            <ListGroup.Item key={idx}>
+              <h6>{x.user}</h6>
+              <section>&#xF586; {x.rate}</section>
+              <p>{x.review}</p>
+            </ListGroup.Item>
+          ) }
+        </ListGroup></Col>
+      </Row>
+    </Container>
   )
 }
 

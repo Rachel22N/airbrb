@@ -3,18 +3,35 @@
 
 import React from 'react';
 
+import { listGet } from '../../apis';
+import ItemPropertyGeneric from '../ItemPropertyGeneric copy';
+
 // TODO: load listings
 function HomeListing (props) {
   // props
-  // style
-  const container = {
-    backgroundColor: 'gray',
-    padding: '5px',
-    flex: '1'
-  }
+
+  // get my properties
+  let myProps;
+  listGet()
+    .then((res) => {
+      myProps = res.listings;
+    })
+    .catch((res) => {
+      // TODO
+    })
 
   return (
-    <section id='home-listing' style={container}></section>
+    <>
+      { myProps.map((x, idx) =>
+        <ItemPropertyGeneric key={idx}
+          pid={x.id}
+          title={x.title}
+          thumb={x.thumb}
+          price={x.price}
+          reviews={x.reviews}
+        />
+      ) }
+    </>
   )
 }
 

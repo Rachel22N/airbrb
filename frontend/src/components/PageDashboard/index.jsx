@@ -6,7 +6,6 @@ import DashboardBody from './DashboardBody';
 function PageDashboard (props) {
   // props
   const { uid } = props
-  // style
 
   return (
     <>

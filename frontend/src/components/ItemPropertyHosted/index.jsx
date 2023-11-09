@@ -1,35 +1,41 @@
 // this component is for listing item display on homepage
 
 import React from 'react';
-
-import './ItemPropertyHosted.css';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 function ItemPropertyHosted (props) {
   // TODO: props
   const { pid, title, ptype, nbed, nbath, thumb, price, reviews, published } = props;
-  // style
+
+  // calculate avg rate
+  let rateSun = 0;
+  reviews.forEach(x => { rateSun += x.rate });
+  const rateAvg = rateSun / reviews.length;
 
   return (
-    <div className='item-property-hosted'>
-      <section className='item-property-hosted-thumb' style={{ background: `url('${thumb}')` }}></section>
-      <section className='item-property-hosted-infoframe'>
-        <section className='item-property-hosted-pid'>{pid}</section>
-        <section>
-          <section className='item-property-hosted-title'>{title}</section>
-          <section className='item-property-hosted-type'>{ptype}</section>
-        </section>
-        <section className='item-property-hosted-rate'></section>
-        <section className='item-property-hosted-facility'>{nbed} Bedroom {nbath} Bathroom</section>
-        <section className='item-property-hosted-reviews'>{reviews.length} Reviews</section>
-        <section className='item-property-hosted-price'>${price}</section>
-        <section className='item-property-hosted-actiongroup'>
-          <button className='item-property-hosted-actiongroup-btn'>Edit</button>
-          <button className='item-property-hosted-actiongroup-btn'>Manage Booking</button>
-          { published ? <button className='item-property-hosted-actiongroup-btn'>Unpublish</button> : <button className='item-property-hosted-actiongroup-btn'>Publish</button> }
-          <button className='item-property-hosted-actiongroup-btn'>Remove</button>
-        </section>
-      </section>
-    </div>
+    <Card>
+      <Card.Img variant='top' src={thumb} />
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <Card.Subtitle>#{pid}</Card.Subtitle>
+        <Card.Text>
+          <h6>{ptype}</h6>
+          <br />&#xF586; {rateAvg}
+          <br />{nbed} Bedroom {nbath} Bathroom
+          <h2>${price}</h2>
+          {reviews.length} Reviews
+        </Card.Text>
+        <Button variant='primary'>Edit</Button>
+        <Button variant='primary'>Manage Booking</Button>
+        {
+          published
+            ? <Button variant='primary'>Unpublish</Button>
+            : <Button variant='primary'>Publish</Button>
+        }
+        <Button variant='primary'>Remove</Button>
+      </Card.Body>
+    </Card>
   )
 }
 

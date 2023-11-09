@@ -6,7 +6,6 @@ import HomeBody from './HomeBody';
 function PageHome (props) {
   // props
   const { uid } = props
-  // style
 
   return (
     <>

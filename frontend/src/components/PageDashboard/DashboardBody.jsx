@@ -1,4 +1,7 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import DashboardListing from './DashboardListing';
 
@@ -8,9 +11,13 @@ function DashboardBody () {
   // style
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <DashboardListing />
-    </div>
+    <Container fluid>
+      <Row>
+        <Col>
+          <DashboardListing />
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

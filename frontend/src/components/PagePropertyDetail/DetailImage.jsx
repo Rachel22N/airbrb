@@ -1,18 +1,30 @@
 import React from 'react';
-
-import 'DetailImage.css';
+import Carousel from 'react-bootstrap/Carousel';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
 
 function DetailImage (props) {
   // props
   const { cover, imglist } = props;
 
   return (
-    <div className='detailimg-container'>
-      <section className='detailimg-cover' style={{ background: `url("${cover}")` }}></section>
-      <section className='detailimg-list'>
-        { imglist.map((x, idx) => <section className='detailimg-list-item' key={idx} style={{ background: `url("${x}")` }}></section>) }
-      </section>
-    </div>
+    <Container fluid>
+      <Row>
+        <Col>
+          <Carousel>
+            <Carousel.Item><Image src={cover} /></Carousel.Item>
+            {
+              imglist &&
+              imglist.map((x, idx) =>
+                <Carousel.Item key={idx}><Image src={x} /></Carousel.Item>
+              )
+            }
+          </Carousel>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

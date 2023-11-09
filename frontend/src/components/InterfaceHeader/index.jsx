@@ -1,47 +1,32 @@
 import React from 'react';
-import { useNavigate as navigate } from 'react-router-dom';
+// import { useNavigate as navigate } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
-import HeaderButton from './HeaderButton';
+import Logo from './logo.png';
 
 function InterfaceHeader (props) {
   // props
-  const { uid } = props
-  // style
-  const cssHeaderContainer = {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: 'navy',
-    margin: '0',
-    padding: '0 10px',
-    height: '40px'
-  }
-  const cssHeaderButton = {
-    height: '100%',
-    padding: '0 10px'
-  }
+  const { uemail } = props
 
   return (
-    <div style={cssHeaderContainer}>
-      <img src='/assets/logo.png' alt='AirBrB logo' style={{ height: '70%' }} />
-      <section style={{ flex: '1' }}></section>
-      {
-        // depend on if user logined
-        uid
-          ? <>
-            <section style={cssHeaderButton}>
-              <HeaderButton innerText='Dashboard' action={navigate('/dashboard')} />
-            </section>
-            <section style={cssHeaderButton}>
-              <HeaderButton innerText='Logout' action={
-                navigate('/')
-              } />
-            </section>
-          </>
-          : <section style={cssHeaderButton}>
-            <HeaderButton innerText='Login/Sign Up' action={navigate('/login')} />
-          </section>
-      }
-    </div>
+    <Navbar expand='lg'>
+      <Container>
+        <Navbar.Brand href='/'><img src={Logo} alt='AirBrB logo' style={{ height: '70%' }} /></Navbar.Brand>
+        <Nav>
+        {
+          // depend on if user logined
+          uemail
+            ? <>
+              <Nav.Link href='/dashboard'>Dashboard</Nav.Link>
+              <Nav.Link href='/'>Logout</Nav.Link>
+            </>
+            : <Nav.Link href='/login'>Login/Register</Nav.Link>
+        }
+        </Nav>
+      </Container>
+    </Navbar>
   )
 }
 

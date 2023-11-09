@@ -1,14 +1,13 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 import ApplicantBooking from './ApplicantBooking';
 import ApplicantReview from './ApplicantReview';
 import { bookGet } from '../../apis';
-
-import '.ApplicationSection.css';
 
 function ApplicantSection (props) {
   // props
@@ -28,7 +27,7 @@ function ApplicantSection (props) {
   }
 
   return (
-    <div className='applicant-container'>
+    <Container>
       <h5>Book A Session</h5>
       <Form.Group as={Row} className='mb-3'>
         <Form.Label column sm='2' htmlFor='home-searchgroup-date-start'>From</Form.Label>
@@ -44,7 +43,7 @@ function ApplicantSection (props) {
       <ApplicantBooking token={token} uemail={uemail} />
       <h5>Leave A Review</h5>
       <ApplicantReview token={token} uemail={uemail} pid={pid} bid={whichBooking()} />
-    </div>
+    </Container>
   )
 }
 

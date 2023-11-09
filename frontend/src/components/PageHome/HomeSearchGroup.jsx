@@ -2,20 +2,16 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 // TODO: further actions
 function HomeSearchGroup () {
   // props
-  // style
-  const container = {
-    padding: '50px 20px',
-    width: '400px'
-  }
 
   return (
-    <section id='home-searchgroup' style={container}>
+    <Container id='home-searchgroup'>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-general'>
         <Col sm='8'><Form.Control type='text' placeholder='Seach' /></Col>
         <Col sm='2'><Button variant='primary'>Search</Button></Col>
@@ -62,7 +58,7 @@ function HomeSearchGroup () {
       </Form.Group>
       <br />
       <Button variant='primary'>Filter</Button>
-    </section>
+    </Container>
   )
 }
 
