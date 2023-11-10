@@ -30,12 +30,12 @@ function ApplicantSection (props) {
     <Container>
       <h5>Book A Session</h5>
       <Form.Group as={Row} className='mb-3'>
-        <Form.Label column sm='2' htmlFor='home-searchgroup-date-start'>From</Form.Label>
-        <Col sm='10'><Form.Control type='date' id='home-searchgroup-date-start' className='form-control' /></Col>
+        <Form.Label column sm='2'>From</Form.Label>
+        <Col sm='10'><Form.Control type='date' className='form-control' /></Col>
       </Form.Group>
       <Form.Group as={Row} className='mb-3'>
-        <Form.Label column sm='2' htmlFor='home-searchgroup-date-end'>To</Form.Label>
-        <Col sm='10'><Form.Control type='date' id='home-searchgroup-date-end' className='form-control' /></Col>
+        <Form.Label column sm='2'>To</Form.Label>
+        <Col sm='10'><Form.Control type='date' className='form-control' /></Col>
       </Form.Group>
       <Button variant='primary'>Book</Button>
       <br />

@@ -32,7 +32,7 @@ function PagePropertyDetail (props) {
 
   return (
     <>
-      <InterfaceHeader />
+      <InterfaceHeader uemail={uemail} />
       <Container fluid>
         <Row>
           <Col><Button variant='primary'><ChavronLeft color='white' size={42} />Back</Button></Col>
