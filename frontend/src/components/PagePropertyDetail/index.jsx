@@ -1,4 +1,5 @@
-import React from 'react';
+import { React, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -16,6 +17,10 @@ function PagePropertyDetail (props) {
   // props
   const { token, uemail, pid } = props;
 
+  // state
+  const [alert, setAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState('');
+
   // def: property detail
   function propertyInfo () {
     listDetail(pid)
@@ -23,7 +28,8 @@ function PagePropertyDetail (props) {
         return res;
       })
       .catch((res) => {
-        // todo
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
@@ -33,6 +39,7 @@ function PagePropertyDetail (props) {
   return (
     <>
       <InterfaceHeader uemail={uemail} />
+      { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Container fluid>
         <Row>
           <Col><Button variant='primary'><ChavronLeft color='white' size={42} />Back</Button></Col>

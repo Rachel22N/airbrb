@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -17,6 +18,8 @@ function ApplicantSection (props) {
   // state
   const [dateStart, setDateStart] = useState(new Date(0));
   const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
+  const [alert, setAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState('');
 
   // private: make a book
   function MakeBooking () {
@@ -24,7 +27,8 @@ function ApplicantSection (props) {
     bookCreate(token, pid, { start: dateStart, end: dateEnd }, days * price)
       .then((res) => navigate('/'))
       .catch((res) => {
-        // todo
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
@@ -36,14 +40,15 @@ function ApplicantSection (props) {
         if (bookings.length) return bookings[0].id; else return -1;
       })
       .catch((res) => {
-        // todo: error popup
-        alert(res);
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
   return (
     <Container>
       <h5>Book A Session</h5>
+      { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Form.Group as={Row} className='mb-3'>
         <Form.Label column sm='2'>From</Form.Label>
         <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateStart(new Date(e.target.value))} /></Col>

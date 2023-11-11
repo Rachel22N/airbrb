@@ -1,7 +1,8 @@
 // caution: this component means the listing panel on homepage
 // not the listing item
 
-import React, { useContext } from 'react';
+import { React, useContext, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 
 import { listGet, listDetail } from '../../apis';
 import ItemPropertyGeneric from '../ItemPropertyGeneric copy';
@@ -11,6 +12,9 @@ import { FilterContext } from './HomeSearchGroup';
 function HomeListing (props) {
   // props/globals
   const { text, nbed, dateStart, dateEnd, priceStart, priceEnd, sortRate } = useContext(FilterContext);
+
+  // state
+  const [alertToken, setAlertToken] = useState(false);
 
   // get my properties
   let myProps;
@@ -52,11 +56,12 @@ function HomeListing (props) {
       myProps = get;
     })
     .catch((res) => {
-      // TODO
+      setAlertToken(true);
     })
 
   return (
     <>
+      { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>Invalid Token</Alert> }
       { myProps.map((x, idx) =>
         <ItemPropertyGeneric key={idx}
           pid={x.id}

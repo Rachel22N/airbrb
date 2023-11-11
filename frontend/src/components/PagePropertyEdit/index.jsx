@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -30,6 +31,8 @@ function PagePropertyEdit (props) {
   const [nbath, setNbath] = useState(1);
   const [amenity, setAmenity] = useState('');
   const [postedon, setPostedon] = useState('');
+  const [alert, setAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState('');
 
   // private: update property
   function pUpdate () {
@@ -46,7 +49,8 @@ function PagePropertyEdit (props) {
         navigate('/dashboard');
       })
       .catch((res) => {
-        // todo
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
@@ -64,7 +68,8 @@ function PagePropertyEdit (props) {
         navigate('/dashboard');
       })
       .catch((res) => {
-        // todo
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
@@ -73,7 +78,8 @@ function PagePropertyEdit (props) {
     fileToDataUrl(file)
       .then((res) => setThumb(res))
       .catch((res) => {
-        // todo
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
@@ -84,7 +90,8 @@ function PagePropertyEdit (props) {
       fileToDataUrl(x)
         .then((res) => ret.push(res))
         .catch((res) => {
-          // todo
+          setAlert(true);
+          setAlertMsg(res);
         })
     });
     setImglist(ret);
@@ -110,13 +117,15 @@ function PagePropertyEdit (props) {
         setPostedon(res.metadata.postedOn)
       })
       .catch((res) => {
-        // TODO
+        setAlert(true);
+        setAlertMsg(res);
       })
   }
 
   return (
     <Container fluid>
       <InterfaceHeader uemail={uemail} />
+      { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Row>
         <Col><Button variant='primary'><ChavronLeft color='white' size={42} />Back</Button></Col>
       </Row>

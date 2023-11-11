@@ -1,4 +1,5 @@
-import React from 'react';
+import { React, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -11,6 +12,8 @@ function ApplicantReview (props) {
   // state
   const [prate, setRate] = React.useState(5);
   const [comment, setComment] = React.useState('');
+  const [alertToken, setAlertToken] = useState(false);
+  const [alertMsg, setAlertMsg] = useState('');
 
   // props
   const { token, uemail, pid, bid } = props;
@@ -23,12 +26,14 @@ function ApplicantReview (props) {
       review: comment
     })
       .catch((res) => {
-        // todo
+        setAlertToken(true);
+        setAlertMsg(res);
       })
   }
 
   return (
     <Container>
+      { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>{alertMsg}</Alert> }
       <Row>
         <Col><Form.Group className='mb-3' controlId='applicant-review-text'>
           { bid ? <Form.Control as='textarea' rows={2} onChange={e => setComment(e.target.value)} /> : <Form.Control as='textarea' rows={2} disabled /> }

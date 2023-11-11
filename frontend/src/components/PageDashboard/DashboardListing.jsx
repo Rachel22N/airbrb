@@ -1,7 +1,8 @@
 // caution: this component means the listing panel on homepage
 // not the listing item
 
-import React from 'react';
+import React, { useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 
 import { listGet, listDetail } from '../../apis';
 import ItemPropertyHosted from '../ItemPropertyHosted';
@@ -9,6 +10,9 @@ import ItemPropertyHosted from '../ItemPropertyHosted';
 function DashboardListing (props) {
   // props/globals
   const { uemail } = props;
+
+  // state
+  const [alertToken, setAlertToken] = useState(false);
 
   // private: get property detail
   function pDetail (pid) {
@@ -39,11 +43,12 @@ function DashboardListing (props) {
       myProps = myProps.map(x => pDetail(x.id)).filter(x => x.pid !== -1);
     })
     .catch((res) => {
-      // TODO
+      setAlertToken(true);
     })
 
   return (
     <>
+      { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>Invalid Token</Alert> }
       { myProps.map((x, idx) =>
         <ItemPropertyHosted key={idx}
           pid={x.pid}

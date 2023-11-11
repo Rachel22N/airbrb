@@ -1,4 +1,5 @@
-import React from 'react';
+import { React, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,6 +11,10 @@ function DetailReview (props) {
   // props
   const { pid } = props;
 
+  // state
+  const [alert, setAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState('');
+
   // preprocess
   let pReview;
   listDetail(pid)
@@ -17,7 +22,8 @@ function DetailReview (props) {
       pReview = res.reviews;
     })
     .catch((res) => {
-      // todo
+      setAlert(true);
+      setAlertMsg(res);
     })
   let rateSun = 0;
   pReview.forEach(x => { rateSun += x.rate });
@@ -25,6 +31,7 @@ function DetailReview (props) {
 
   return (
     <Container fluid>
+      { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Row>
         <Col>Rating: {rateAvg} &#xF586;</Col>
       </Row>
