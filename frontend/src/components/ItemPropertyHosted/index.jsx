@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 function ItemPropertyHosted (props) {
-  // TODO: props
+  // TODO: set button links
   const { pid, title, ptype, nbed, nbath, thumb, price, reviews, published } = props;
 
   // calculate avg rate

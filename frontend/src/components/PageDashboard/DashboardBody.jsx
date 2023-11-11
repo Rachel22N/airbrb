@@ -5,13 +5,16 @@ import Col from 'react-bootstrap/Col';
 
 import DashboardListing from './DashboardListing';
 
-// TODO: DashboardBody
+// TODO: income view?
 function DashboardBody () {
   // props
   // style
 
   return (
     <Container fluid>
+      <Row>
+        <Col>TODO: See how much money you made</Col>
+      </Row>
       <Row>
         <Col>
           <DashboardListing />

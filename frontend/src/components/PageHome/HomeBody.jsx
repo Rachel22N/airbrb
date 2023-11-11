@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import HomeSearchGroup from './HomeSearchGroup';
+import { HomeSearchGroup, FilterProvider } from './HomeSearchGroup';
 import HomeListing from './HomeListing';
 
 // TODO: HomeBody
@@ -17,7 +17,7 @@ function HomeBody () {
       </Row>
       <Row>
         <Col xs={0} md={4}><HomeSearchGroup /></Col>
-        <Col><HomeListing /></Col>
+        <Col><FilterProvider><HomeListing /></FilterProvider></Col>
       </Row>
     </Container>
   )

@@ -43,7 +43,7 @@ function PagePropertyDetail (props) {
         <Row>
           <Col><DetailInfo
             title={pDetail.title}
-            ptype='Apartment'
+            ptype={pDetail.metadate.type}
             addr={pDetail.address}
             nbed={pDetail.metadata.bed}
             nbath={pDetail.metadata.bath}
@@ -52,7 +52,7 @@ function PagePropertyDetail (props) {
           /></Col>
         </Row>
         <Row>
-          <Col><ApplicantSection token={token} uemail={uemail} pid={pid} /></Col>
+          <Col><ApplicantSection token={token} uemail={uemail} pid={pid} price={pDetail.price} /></Col>
         </Row>
         <Row>
           <Col><DetailReview pid={pid} /></Col>

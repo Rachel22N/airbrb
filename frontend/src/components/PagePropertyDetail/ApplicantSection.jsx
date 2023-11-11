@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { useNavigate as navigate } from 'react-router-dom';
 
 import ApplicantBooking from './ApplicantBooking';
 import ApplicantReview from './ApplicantReview';
-import { bookGet } from '../../apis';
+import { bookGet, bookCreate } from '../../apis';
 
 function ApplicantSection (props) {
   // props
-  const { token, uemail, pid } = props;
+  const { token, uemail, pid, price } = props;
+
+  // state
+  const [dateStart, setDateStart] = useState(new Date(0));
+  const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
+
+  // private: make a book
+  function MakeBooking () {
+    const days = (dateEnd.getTime() - dateStart.getTime()) / 86400000;
+    bookCreate(token, pid, { start: dateStart, end: dateEnd }, days * price)
+      .then((res) => navigate('/'))
+      .catch((res) => {
+        // todo
+      })
+  }
 
   // def: return last accepted booking id of this property
   function whichBooking () {
@@ -31,18 +46,18 @@ function ApplicantSection (props) {
       <h5>Book A Session</h5>
       <Form.Group as={Row} className='mb-3'>
         <Form.Label column sm='2'>From</Form.Label>
-        <Col sm='10'><Form.Control type='date' className='form-control' /></Col>
+        <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateStart(new Date(e.target.value))} /></Col>
       </Form.Group>
       <Form.Group as={Row} className='mb-3'>
         <Form.Label column sm='2'>To</Form.Label>
-        <Col sm='10'><Form.Control type='date' className='form-control' /></Col>
+        <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateEnd(new Date(e.target.value))} /></Col>
       </Form.Group>
-      <Button variant='primary'>Book</Button>
+      <Button variant='primary' onClick={() => MakeBooking()}>Book</Button>
       <br />
       <h5>My Bookings</h5>
       <ApplicantBooking token={token} uemail={uemail} />
       <h5>Leave A Review</h5>
-      <ApplicantReview token={token} uemail={uemail} pid={pid} bid={whichBooking()} />
+      <ApplicantReview token={token} uemail={uemail} pid={pid} bid={() => whichBooking()} />
     </Container>
   )
 }

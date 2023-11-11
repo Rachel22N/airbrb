@@ -4,11 +4,12 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+import { authLogout } from '../../apis';
 import Logo from './logo.png';
 
 function InterfaceHeader (props) {
   // props
-  const { uemail } = props
+  const { token, uemail } = props
 
   return (
     <Navbar expand='lg'>
@@ -20,7 +21,7 @@ function InterfaceHeader (props) {
           uemail
             ? <>
               <Nav.Link href='/dashboard'>Dashboard</Nav.Link>
-              <Nav.Link href='/'>Logout</Nav.Link>
+              <Nav.Link href='/' onClick={() => authLogout(token)}>Logout</Nav.Link>
             </>
             : <Nav.Link href='/login'>Login/Register</Nav.Link>
         }

@@ -5,11 +5,11 @@ import DashboardBody from './DashboardBody';
 
 function PageDashboard (props) {
   // props
-  const { uid } = props
+  const { token, uemail } = props
 
   return (
     <>
-      <InterfaceHeader uid={uid} />
+      <InterfaceHeader />
       <DashboardBody />
     </>
   )

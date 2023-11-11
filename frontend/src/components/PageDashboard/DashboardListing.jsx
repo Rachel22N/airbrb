@@ -6,9 +6,8 @@ import React from 'react';
 import { listGet, listDetail } from '../../apis';
 import ItemPropertyHosted from '../ItemPropertyHosted';
 
-// TODO: load listings
 function DashboardListing (props) {
-  // props
+  // props/globals
   const { uemail } = props;
 
   // private: get property detail
