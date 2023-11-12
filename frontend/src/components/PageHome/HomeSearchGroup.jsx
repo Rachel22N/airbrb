@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -6,31 +6,43 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-// filter global state
-const [text, setText] = useState('');
-const [nBed, setNbed] = useState(0);
-const [dateStart, setDateStart] = useState(new Date(0));
-const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
-const [priceStart, setPriceStart] = useState(0);
-const [priceEnd, setPriceEnd] = useState(Infinity);
-const [sortRate, setSortRate] = useState('highest');
+import { useSearchContext } from './HomeSearchContext';
 
 // TODO: further actions
-function HomeSearchGroup () {
-  // props
+export function HomeSearchGroup () {
+  // filter global state
+  const [text, setText] = useState('');
+  const [nBed, setNbed] = useState(0);
+  const [dateStart, setDateStart] = useState(new Date(0));
+  const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
+  const [priceStart, setPriceStart] = useState(0);
+  const [priceEnd, setPriceEnd] = useState(Infinity);
+  const [sortRate, setSortRate] = useState('highest');
+  const { searchConditions, setSearchConditions } = useSearchContext();
+
+  console.log(searchConditions);
+
+  // update search conditions
+  function updateSearch () {
+    setSearchConditions({ text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate })
+  }
+
+  useEffect(() => {
+    updateSearch()
+  }, [text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate])
 
   return (
-    <Container id='home-searchgroup'>
+    <Container fluid id='home-searchgroup' className='border-end'>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-general'>
-        <Col sm='8'><Form.Control type='text' placeholder='Seach' onChange={e => setText(e.target.value)} /></Col>
-        <Col sm='2'><Button variant='primary'>Search</Button></Col>
+      <Form.Label column sm='3'>Keyword</Form.Label>
+        <Col sm='9'><Form.Control type='text' placeholder='Search' onChange={e => setText(e.target.value)} /></Col>
       </Form.Group>
       <br />
       <h5>Facility</h5>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-nbed'>
         <Form.Label column sm='2'>Beds</Form.Label>
-        <Col sm='10'><Form.Select onChange={e => setNbed(parseInt(e.target.value))}>
-          <option selected>1</option>
+        <Col sm='10'><Form.Select onChange={e => setNbed(parseInt(e.target.value))} defaultValue='1'>
+          <option>1</option>
           <option>2</option>
           <option>3</option>
           <option>4</option>
@@ -60,26 +72,14 @@ function HomeSearchGroup () {
       <h5>Rating</h5>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-sortrate'>
         <Form.Label column sm='2'>SortBy</Form.Label>
-        <Col sm='10'><Form.Select className='form-select' onChange={e => setSortRate(e.target.value.toLowerCase())}>
-          <option selected>Highest</option>
+        <Col sm='10'><Form.Select className='form-select' onChange={e => setSortRate(e.target.value.toLowerCase())} defaultValue='Highest'>
+          <option>Highest</option>
           <option>Lowest</option>
         </Form.Select></Col>
       </Form.Group>
       <br />
       <Button variant='primary'>Filter</Button>
     </Container>
-  )
-}
-
-// filter context
-export const FilterContext = createContext(null);
-
-export function FilterProvider ({ children }) {
-  const filters = {
-    text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate
-  }
-  return (
-    <HomeSearchGroup.Provider value={filters}>{children}</HomeSearchGroup.Provider>
   )
 }
 

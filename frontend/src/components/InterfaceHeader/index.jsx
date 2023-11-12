@@ -1,6 +1,8 @@
 import React from 'react';
 // import { useNavigate as navigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
+import Figure from 'react-bootstrap/Figure';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
@@ -13,8 +15,8 @@ function InterfaceHeader (props) {
 
   return (
     <Navbar expand='lg'>
-      <Container>
-        <Navbar.Brand href='/'><img src={Logo} alt='AirBrB logo' style={{ height: '70%' }} /></Navbar.Brand>
+      <Container fluid className='bg-danger-subtle'>
+        <Navbar.Brand href='/'><Figure.Image src={Logo} alt='AirBrB logo' height={70} /></Navbar.Brand>
         <Nav>
         {
           // depend on if user logined

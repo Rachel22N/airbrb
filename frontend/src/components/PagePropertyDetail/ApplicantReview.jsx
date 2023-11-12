@@ -43,8 +43,8 @@ function ApplicantReview (props) {
         <Col>
           <Form.Group as={Row} className='mb-3' controlId='applicant-review-rate'>
             <Form.Label column sm='2'>Rate</Form.Label>
-            <Col sm='10'><Form.Select onChange={e => setRate(parseInt(e.target.value))}>
-              <option selected>5</option>
+            <Col sm='10'><Form.Select onChange={e => setRate(parseInt(e.target.value))} defaultValue='5'>
+              <option>5</option>
               <option>1</option>
               <option>2</option>
               <option>3</option>

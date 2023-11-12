@@ -1,6 +1,6 @@
 // this component is for listing item display on homepage
 
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';

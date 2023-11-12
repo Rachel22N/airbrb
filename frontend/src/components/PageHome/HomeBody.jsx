@@ -1,9 +1,11 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { HomeSearchGroup, FilterProvider } from './HomeSearchGroup';
+import { HomeSearchGroup } from './HomeSearchGroup';
+import { HomeSearchProvider } from './HomeSearchContext';
 import HomeListing from './HomeListing';
 
 // TODO: HomeBody
@@ -11,15 +13,14 @@ function HomeBody () {
   // props
 
   return (
-    <Container fluid>
-      <Row>
-        <Col xs={12} md={0}><HomeSearchGroup /></Col>
-      </Row>
-      <Row>
-        <Col xs={0} md={4}><HomeSearchGroup /></Col>
-        <Col><FilterProvider><HomeListing /></FilterProvider></Col>
-      </Row>
-    </Container>
+    <HomeSearchProvider>
+      <Container fluid>
+        <Row>
+          <Col xs={0} md={4}><HomeSearchGroup /></Col>
+          <Col><HomeListing /></Col>
+        </Row>
+      </Container>
+    </HomeSearchProvider>
   )
 }
 

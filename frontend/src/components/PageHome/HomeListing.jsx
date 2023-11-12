@@ -1,17 +1,18 @@
 // caution: this component means the listing panel on homepage
 // not the listing item
 
-import { React, useContext, useState } from 'react';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 
 import { listGet, listDetail } from '../../apis';
-import ItemPropertyGeneric from '../ItemPropertyGeneric copy';
-import { FilterContext } from './HomeSearchGroup';
+import ItemPropertyGeneric from '../ItemPropertyGeneric';
+import { useSearchContext } from './HomeSearchContext';
 
-// TODO: load listings
+// TODO: iteratively check date range
 function HomeListing (props) {
   // props/globals
-  const { text, nbed, dateStart, dateEnd, priceStart, priceEnd, sortRate } = useContext(FilterContext);
+  const { text, nbed, dateStart, dateEnd, priceStart, priceEnd, sortRate } = useSearchContext();
 
   // state
   const [alertToken, setAlertToken] = useState(false);
@@ -62,7 +63,7 @@ function HomeListing (props) {
   return (
     <>
       { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>Invalid Token</Alert> }
-      { myProps.map((x, idx) =>
+      { myProps && myProps.map((x, idx) =>
         <ItemPropertyGeneric key={idx}
           pid={x.id}
           title={x.title}

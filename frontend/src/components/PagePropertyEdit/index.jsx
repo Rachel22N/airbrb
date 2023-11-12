@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -163,7 +164,7 @@ function PagePropertyEdit (props) {
           <br />
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-type'>
             <Form.Label column sm='2'>Type</Form.Label>
-            <Col sm='10'><Form.Select value={type} onChange={e => setType(e.target.value)}>
+            <Col sm='10'><Form.Select value={type} onChange={e => setType(e.target.value)} defaultValue='House'>
               <option>House</option>
               <option>Apartment</option>
             </Form.Select></Col>
@@ -174,8 +175,8 @@ function PagePropertyEdit (props) {
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-nbed'>
             <Form.Label column sm='2'>#Bedroom</Form.Label>
-            <Col sm='10'><Form.Select value={nbed} onChange={e => setNbed(e.target.value)}>
-              <option selected>1</option>
+            <Col sm='10'><Form.Select value={nbed} onChange={e => setNbed(e.target.value)} defaultValue='1'>
+              <option>1</option>
               <option>2</option>
               <option>3</option>
               <option>4</option>
@@ -185,7 +186,7 @@ function PagePropertyEdit (props) {
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-nbath'>
             <Form.Label column sm='2'>#Bathroom</Form.Label>
-            <Col sm='10'><Form.Select value={nbath} onChange={e => setNbath(e.target.value)}>
+            <Col sm='10'><Form.Select value={nbath} onChange={e => setNbath(e.target.value)} defaultValue='1'>
               <option>1</option>
               <option>2</option>
               <option>3</option>
