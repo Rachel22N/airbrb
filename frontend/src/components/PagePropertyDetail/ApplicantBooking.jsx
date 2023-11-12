@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import ListGroup from 'react-bootstrap/ListGroup';
 
@@ -6,7 +7,8 @@ import { bookGet } from '../../apis';
 
 function ApplicantBooking (props) {
   // props
-  const { token, uemail } = props;
+  const token = localStorage.getItem('token');
+  const uemail = localStorage.getItem('userId');
 
   // state
   const [alertToken, setAlertToken] = useState(false);

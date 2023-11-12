@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -16,7 +17,9 @@ function ApplicantReview (props) {
   const [alertMsg, setAlertMsg] = useState('');
 
   // props
-  const { token, uemail, pid, bid } = props;
+  const token = localStorage.getItem('token');
+  const uemail = localStorage.getItem('userId');
+  const { pid, bid } = props;
 
   // post a new review
   function fetchPostReview () {

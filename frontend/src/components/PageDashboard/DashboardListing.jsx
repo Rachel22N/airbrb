@@ -2,6 +2,8 @@
 // not the listing item
 
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
 
 import { listGet, listDetail } from '../../apis';
@@ -22,8 +24,8 @@ function DashboardListing (props) {
           pid: pid,
           title: res.title,
           ptype: res.metadata.type,
-          nbed: res.metadata.nbed,
-          nbath: res.metadata.nbath,
+          nbed: res.metadata.numBed,
+          nbath: res.metadata.numBath,
           thumb: res.thumbnail,
           price: res.price,
           reviews: res.reviews,
@@ -47,7 +49,7 @@ function DashboardListing (props) {
     })
 
   return (
-    <>
+    <Container fluid>
       { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>Invalid Token</Alert> }
       { myProps.map((x, idx) =>
         <ItemPropertyHosted key={idx}
@@ -62,7 +64,7 @@ function DashboardListing (props) {
           published={x.published}
         />
       ) }
-    </>
+    </Container>
   )
 }
 

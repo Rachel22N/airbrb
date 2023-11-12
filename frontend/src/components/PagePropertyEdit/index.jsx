@@ -7,15 +7,17 @@ import Container from 'react-bootstrap/Container';
 import ChavronLeft from 'react-bootstrap-icons';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { useNavigate as navigate } from 'react-router-dom';
+import { useNavigate as navigate, useParams } from 'react-router-dom';
 
 import { listDetail, listCreate, listUpdate } from '../../apis';
 import { fileToDataUrl } from '../../helpers'
 import InterfaceHeader from '../InterfaceHeader';
 
-function PagePropertyEdit (props) {
+function PagePropertyEdit () {
   // props
-  const { token, uemail, pid } = props;
+  const token = localStorage.getItem('token');
+  const uemail = localStorage.getItem('userId');
+  const pid = useParams().listingId;
 
   // state
   const [thumb, setThumb] = useState('');
@@ -31,7 +33,12 @@ function PagePropertyEdit (props) {
   const [nbed, setNbed] = useState(1);
   const [nbath, setNbath] = useState(1);
   const [amenity, setAmenity] = useState('');
-  const [postedon, setPostedon] = useState('');
+  const [aWifi, setAWifi] = useState(false);
+  const [aPark, setAPark] = useState(false);
+  const [aAC, setAAC] = useState(false);
+  const [aBreakfast, setABreakfast] = useState(false);
+  const [aPets, setAPets] = useState(false);
+  const [aSPA, setASPA] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
 
@@ -44,7 +51,7 @@ function PagePropertyEdit (props) {
       { street, city, state, postcode, country },
       price,
       thumb,
-      { nbed, nbath, amenities: amenity, imglist, postedon },
+      { nbed, nbath, amenities: amenity, imglist },
     )
       .then((res) => {
         navigate('/dashboard');
@@ -63,7 +70,7 @@ function PagePropertyEdit (props) {
       { street, city, state, postcode, country },
       price,
       thumb,
-      { nbed, nbath, amenities: amenity, imglist, postedon: new Date().toISOString() },
+      { nbed, nbath, amenities: amenity, imglist },
     )
       .then((res) => {
         navigate('/dashboard');
@@ -103,7 +110,7 @@ function PagePropertyEdit (props) {
     listDetail(pid)
       .then((res) => {
         setThumb(res.thumbnail);
-        setImglist(res.metadata.imglist);
+        setImglist(res.metadata.imgList);
         setTitle(res.title);
         setStreet(res.address.street);
         setCity(res.address.city);
@@ -112,10 +119,14 @@ function PagePropertyEdit (props) {
         setCountry(res.address.country);
         setType(res.metadata.type);
         setPrice(res.price);
-        setNbed(res.metadata.nbed);
-        setNbath(res.metadata.nbath);
-        setAmenity(res.metadata.amenities);
-        setPostedon(res.metadata.postedOn)
+        setNbed(res.metadata.numBed);
+        setNbath(res.metadata.numBath);
+        setAWifi(res.metadata.wifi);
+        setAPark(res.metadata.parking);
+        setAAC(res.metadata.airConditioning);
+        setABreakfast(res.metadata.breakfast);
+        setAPets(res.metadata.pets);
+        setASPA(res.metadata.spa);
       })
       .catch((res) => {
         setAlert(true);
@@ -195,6 +206,13 @@ function PagePropertyEdit (props) {
               <option>6</option>
             </Form.Select></Col>
           </Form.Group>
+          <h5>Amenities</h5>
+          <Form.Check type='checkbox' id='propertyedit-amenities-wifi' label='Wi-Fi' checked={aWifi} onClick={(e) => setAWifi(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-park' label='Car Park' checked={aPark} onClick={(e) => setAPark(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-ac' label='A/C' checked={aAC} onClick={(e) => setAAC(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-breakfast' label='Breakfast Included' checked={aBreakfast} onClick={(e) => setABreakfast(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-pets' label='Pets Allowed' checked={aPets} onClick={(e) => setAPets(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-spa' label='SPA Facility' checked={aSPA} onClick={(e) => setASPA(e.target.checked)} />
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-amenities'>
             <Form.Label column sm='2'>Amenities</Form.Label>
             <Col sm='10'><Form.Control type='text' value={amenity} onChange={e => setAmenity(e.target.value)} /></Col>
@@ -206,8 +224,8 @@ function PagePropertyEdit (props) {
         </Form></Col>
         {
           pid
-            ? <Button variant='primary' onClick={pUpdate}>Save</Button>
-            : <Button variant='primary' onClick={pCreate}>Create</Button>
+            ? <Button variant='primary' onClick={() => pUpdate()}>Save</Button>
+            : <Button variant='primary' onClick={() => pCreate()}>Create</Button>
         }
       </Row>
     </Container>

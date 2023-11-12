@@ -1,6 +1,7 @@
 // this component is for listing item display on homepage
 
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -12,8 +13,8 @@ import { useNavigate as navigate } from 'react-router-dom';
 import { listPublish, listUnpublish, listDelete } from '../../apis';
 
 function ItemPropertyHosted (props) {
-  // TODO: set button links
-  const { token, pid, title, ptype, nbed, nbath, thumb, price, reviews, published } = props;
+  const token = localStorage.getItem('token');
+  const { pid, title, ptype, nbed, nbath, thumb, price, reviews, published } = props;
 
   // state
   const [dateShow, setDateShow] = useState(false);

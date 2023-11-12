@@ -1,4 +1,6 @@
 import { React, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -15,7 +17,9 @@ import InterfaceHeader from '../InterfaceHeader';
 
 function PagePropertyDetail (props) {
   // props
-  const { token, uemail, pid } = props;
+  const token = localStorage.getItem('token');
+  const uemail = localStorage.getItem('userId');
+  const pid = useParams().listingId;
 
   // state
   const [alert, setAlert] = useState(false);
@@ -38,23 +42,23 @@ function PagePropertyDetail (props) {
 
   return (
     <>
-      <InterfaceHeader uemail={uemail} />
+      <InterfaceHeader />
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Container fluid>
         <Row>
           <Col><Button variant='primary'><ChavronLeft color='white' size={42} />Back</Button></Col>
         </Row>
         <Row>
-          <Col><DetailImage cover={pDetail.thumbnail} /></Col>
+          <Col><DetailImage cover={pDetail.thumbnail} imglist={pDetail.metadata.imgList} /></Col>
         </Row>
         <Row>
           <Col><DetailInfo
             title={pDetail.title}
             ptype={pDetail.metadate.type}
             addr={pDetail.address}
-            nbed={pDetail.metadata.bed}
-            nbath={pDetail.metadata.bath}
-            nroom={pDetail.metadata.room}
+            nbed={pDetail.metadata.numBed}
+            nbath={pDetail.metadata.numBath}
+            nroom={pDetail.metadata.numRoom}
             price={pDetail.price}
           /></Col>
         </Row>

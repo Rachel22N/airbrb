@@ -15,9 +15,9 @@ function HomeBody () {
   return (
     <HomeSearchProvider>
       <Container fluid>
-        <Row>
-          <Col xs={0} md={4}><HomeSearchGroup /></Col>
-          <Col><HomeListing /></Col>
+        <Row className='min-vh-100'>
+          <Col xs={0} md={4} className='border-end py-5'><HomeSearchGroup /></Col>
+          <Col className='bg-secondary-subtle p-2'><HomeListing /></Col>
         </Row>
       </Container>
     </HomeSearchProvider>

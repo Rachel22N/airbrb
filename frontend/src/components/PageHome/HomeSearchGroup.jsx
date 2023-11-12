@@ -32,7 +32,7 @@ export function HomeSearchGroup () {
   }, [text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate])
 
   return (
-    <Container fluid id='home-searchgroup' className='border-end'>
+    <Container fluid id='home-searchgroup'>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-general'>
       <Form.Label column sm='3'>Keyword</Form.Label>
         <Col sm='9'><Form.Control type='text' placeholder='Search' onChange={e => setText(e.target.value)} /></Col>

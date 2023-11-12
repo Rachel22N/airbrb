@@ -3,9 +3,9 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useNavigate as navigate } from 'react-router-dom';
 
 function ItemPropertyGeneric (props) {
-  // TODO: set go to property detail link
   const { pid, title, thumb, price, reviews } = props;
 
   return (
@@ -15,7 +15,7 @@ function ItemPropertyGeneric (props) {
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle>#{pid}</Card.Subtitle>
         <Card.Text><h2>${price}</h2>{reviews.length} Reviews</Card.Text>
-        <Button variant='primary'>Learn More</Button>
+        <Button variant='primary' onClick={navigate(`listings/${pid}`)}>Learn More</Button>
       </Card.Body>
     </Card>
   )

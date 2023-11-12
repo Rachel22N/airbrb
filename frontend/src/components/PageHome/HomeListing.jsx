@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
+import Container from 'react-bootstrap/Container';
 
 import { listGet, listDetail } from '../../apis';
 import ItemPropertyGeneric from '../ItemPropertyGeneric';
@@ -36,7 +37,7 @@ function HomeListing (props) {
               price: res2.price,
               dateStart: res2.availability.start,
               dateEnd: res2.availability.end,
-              nbed: res2.metadata.nbed,
+              nbed: res2.metadata.numBed,
               rate: scoreAvg,
               reviews: res2.reviews
             }
@@ -61,7 +62,7 @@ function HomeListing (props) {
     })
 
   return (
-    <>
+    <Container fluid>
       { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>Invalid Token</Alert> }
       { myProps && myProps.map((x, idx) =>
         <ItemPropertyGeneric key={idx}
@@ -72,7 +73,7 @@ function HomeListing (props) {
           reviews={x.reviews}
         />
       ) }
-    </>
+    </Container>
   )
 }
 

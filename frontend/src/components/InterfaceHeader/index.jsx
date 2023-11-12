@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useNavigate as navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Figure from 'react-bootstrap/Figure';
@@ -9,15 +8,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import { authLogout } from '../../apis';
 import Logo from './logo.png';
 
-function InterfaceHeader (props) {
+function InterfaceHeader () {
   // props
-  const { token, uemail } = props
+  const token = localStorage.getItem('token');
+  const uemail = localStorage.getItem('userId');
 
   return (
-    <Navbar expand='lg'>
+    <Navbar expand='lg' className='p-0'>
       <Container fluid className='bg-danger-subtle'>
         <Navbar.Brand href='/'><Figure.Image src={Logo} alt='AirBrB logo' height={70} /></Navbar.Brand>
         <Nav>
+          <Nav.Link href='/'>Home</Nav.Link>
         {
           // depend on if user logined
           uemail

@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -13,7 +14,9 @@ import { bookGet, bookCreate } from '../../apis';
 
 function ApplicantSection (props) {
   // props
-  const { token, uemail, pid, price } = props;
+  const token = localStorage.getItem('token');
+  const uemail = localStorage.getItem('userId');
+  const { pid, price } = props;
 
   // state
   const [dateStart, setDateStart] = useState(new Date(0));
@@ -42,6 +45,7 @@ function ApplicantSection (props) {
       .catch((res) => {
         setAlert(true);
         setAlertMsg(res);
+        return -1;
       })
   }
 
@@ -62,7 +66,7 @@ function ApplicantSection (props) {
       <h5>My Bookings</h5>
       <ApplicantBooking token={token} uemail={uemail} />
       <h5>Leave A Review</h5>
-      <ApplicantReview token={token} uemail={uemail} pid={pid} bid={() => whichBooking()} />
+      <ApplicantReview token={token} uemail={uemail} pid={pid} bid={whichBooking()} />
     </Container>
   )
 }
