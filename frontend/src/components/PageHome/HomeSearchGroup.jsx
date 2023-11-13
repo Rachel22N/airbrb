@@ -78,7 +78,7 @@ export function HomeSearchGroup () {
         </Form.Select></Col>
       </Form.Group>
       <br />
-      <Button variant='primary' onClick={() => updateSearch()}>Filter</Button>
+      <Row><Col className='d-grid'><Button variant='primary' onClick={() => updateSearch()}>Filter</Button></Col></Row>
     </Container>
   )
 }

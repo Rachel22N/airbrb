@@ -6,9 +6,10 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { useNavigate as navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { listPublish, listUnpublish, listDelete } from '../../apis';
 
@@ -17,6 +18,8 @@ function ItemPropertyHosted (props) {
   const { pid, title, ptype, nbed, nbath, thumb, price, reviews, published } = props;
 
   // state
+  const [publish, setPublish] = useState(published);
+  const [removed, setRemoved] = useState(false);
   const [dateShow, setDateShow] = useState(false);
   const [dateInput, setDateInput] = useState([{ start: new Date(0), end: new Date(2099, 12, 31) }]);
   const [alert, setAlert] = useState(false);
@@ -24,33 +27,38 @@ function ItemPropertyHosted (props) {
 
   // calculate avg rate
   let rateSun = 0;
-  reviews.forEach(x => { rateSun += x.rate });
-  const rateAvg = rateSun / reviews.length;
+  let rateAvg = 0;
+  if (reviews.length) {
+    reviews.forEach(x => { rateSun += x.rate });
+    rateAvg = rateSun / reviews.length;
+  }
 
   // private: add date range
   function popDate (s, e) {
-    const tmp = dateInput;
-    tmp.push({ start: s, end: e });
-    setDateInput(tmp);
+    setDateInput((prevDates) => [...prevDates, { start: s, end: e }]);
   }
 
   // private: update one of date range
   function updateDateStart (idx, s) {
-    const tmp = dateInput;
-    tmp[idx].start = s;
-    setDateInput(tmp);
+    setDateInput((prevDates) => {
+      const newDates = [...prevDates];
+      newDates[idx].start = s;
+      return newDates;
+    });
   }
 
   function updateDateEnd (idx, e) {
-    const tmp = dateInput;
-    tmp[idx].end = e;
-    setDateInput(tmp);
+    setDateInput((prevDates) => {
+      const newDates = [...prevDates];
+      newDates[idx].end = e;
+      return newDates;
+    });
   }
 
   // private: publush
   function pPublish () {
     listPublish(token, pid, dateInput)
-      .then((res) => navigate('/dashboard'))
+      .then((res) => setPublish(true))
       .catch((res) => {
         setAlert(true);
         setAlertMsg(res);
@@ -60,7 +68,10 @@ function ItemPropertyHosted (props) {
   // private: unpublish
   function pUnpublish () {
     listUnpublish(token, pid)
-      .then((res) => navigate('/dashboard'))
+      .then((res) => {
+        setPublish(false);
+        setDateShow(false);
+      })
       .catch((res) => {
         setAlert(true);
         setAlertMsg(res);
@@ -70,28 +81,14 @@ function ItemPropertyHosted (props) {
   // private: delete
   function pRemove () {
     listDelete(token, pid)
-      .then((res) => navigate('/dashboard'))
+      .then((res) => setRemoved(true))
       .catch((res) => {
         setAlert(true);
         setAlertMsg(res);
       })
   }
 
-  // private: multi-dateinput
-  function generateInputGroup () {
-    dateInput.map((x, idx) =>
-      <>
-        <Form.Group as={Row} className='mb-3'>
-          <Form.Label column sm='2'>From</Form.Label>
-          <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => updateDateStart(idx, new Date(e.target.value))} value={x.start} /></Col>
-        </Form.Group>
-        <Form.Group as={Row} className='mb-3'>
-          <Form.Label column sm='2'>To</Form.Label>
-          <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => updateDateEnd(idx, new Date(e.target.value))} value={x.end} /></Col>
-        </Form.Group>
-      </>
-    )
-  }
+  if (removed) return (<Card>This item has been removed</Card>)
 
   return (
     <Card>
@@ -101,24 +98,43 @@ function ItemPropertyHosted (props) {
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle>#{pid}</Card.Subtitle>
         <Card.Text>
-          <h6>{ptype}</h6>
-          <br />&#xF586; {rateAvg}
-          <br />{nbed} Bedroom {nbath} Bathroom
-          <h2>${price}</h2>
-          {reviews.length} Reviews
+          {ptype}
+          <br />&#10030; {rateAvg}
+          <br />{nbed} Bed {nbath} Bathroom
+          <br /><b>${price}</b>
+          <br />{reviews.length} Reviews
         </Card.Text>
-        <Button variant='primary' onClick={() => navigate(`/listings/edit/${pid}`)}>Edit</Button>
-        <Button variant='primary' onClick={() => navigate(`/listings/manage/${pid}`)}>Manage Booking</Button>
+        <Link to={`/property/edit/${pid}`}><Button variant='primary'>Edit</Button></Link>
+        <Link to={`/property/manage/${pid}`}><Button variant='primary'>Manage Booking</Button></Link>
         {
-          published
+          publish
             ? <Button variant='primary' onClick={() => pUnpublish()}>Unpublish</Button>
             : <Button variant='primary' onClick={() => setDateShow(true)}>Publish</Button>
         }
         <Button variant='primary' onClick={() => pRemove()}>Remove</Button>
-        { dateShow && <h5>Book A Session</h5> }
-        { dateShow && generateInputGroup() }
-        { dateShow && <Button variant='primary' onClick={() => popDate(new Date(0), new Date(2099, 12, 31))}>Add Range</Button> }
-        { dateShow && <Button variant='primary' onClick={() => pPublish()}>Submit</Button> }
+        { (dateShow && !publish) && <h5>Setup Availabilities</h5> }
+        { (dateShow && !publish) && dateInput.map((x, idx) =>
+          <Container key={idx}>
+            <Form.Group as={Row} className='mb-3'>
+              <Form.Label column sm='2'>From</Form.Label>
+              <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => updateDateStart(idx, new Date(e.target.value))} defaultValue={`${x.start.getFullYear()}-${x.start.getMonth()}-${x.start.getDate()}`} /></Col>
+            </Form.Group>
+            <Form.Group as={Row} className='mb-3'>
+              <Form.Label column sm='2'>To</Form.Label>
+              <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => updateDateEnd(idx, new Date(e.target.value))} defaultValue={`${x.end.getFullYear()}-${x.end.getMonth()}-${x.end.getDate()}`} /></Col>
+            </Form.Group>
+          </Container>
+        ) }
+        { dateShow && !publish && (
+          <>
+            <Button variant="primary" onClick={() => popDate(new Date(0), new Date(2099, 12, 31))}>
+              Add Range
+            </Button>
+            <Button variant="primary" onClick={() => pPublish()}>
+              Submit
+            </Button>
+          </>
+        ) }
       </Card.Body>
     </Card>
   )

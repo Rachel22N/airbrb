@@ -14,7 +14,7 @@ function DetailImage (props) {
     <Container fluid>
       <Row>
         <Col>
-          <Carousel>
+          <Carousel className='bg-secondary'>
             <Carousel.Item><Image src={cover} /></Carousel.Item>
             {
               imglist &&

@@ -1,11 +1,10 @@
-import { React, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { React, useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import ChavronLeft from 'react-bootstrap-icons';
 import Row from 'react-bootstrap/Row';
 
 import DetailImage from './DetailImage';
@@ -15,30 +14,37 @@ import DetailReview from './DetailReview';
 import { listDetail } from '../../apis';
 import InterfaceHeader from '../InterfaceHeader';
 
-function PagePropertyDetail (props) {
+function PagePropertyDetail () {
   // props
   const token = localStorage.getItem('token');
   const uemail = localStorage.getItem('userId');
   const pid = useParams().listingId;
+  console.log(`[INFO] PropertyDetail: ${pid}`);
 
   // state
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
+  const [pDetail, setPDetail] = useState(null);
 
-  // def: property detail
-  function propertyInfo () {
-    listDetail(pid)
-      .then((res) => {
-        return res;
-      })
-      .catch((res) => {
+  // property detail
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await listDetail(pid);
+        setPDetail(res.listing);
+      } catch (error) {
         setAlert(true);
-        setAlertMsg(res);
-      })
-  }
+        setAlertMsg(error);
+      }
+    };
+
+    fetchData();
+  }, [pid]);
 
   // preprocess
-  const pDetail = propertyInfo();
+  console.log(pDetail);
+
+  if (!pDetail) return (<>Please wait...</>)
 
   return (
     <>
@@ -46,7 +52,7 @@ function PagePropertyDetail (props) {
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Container fluid>
         <Row>
-          <Col><Button variant='primary'><ChavronLeft color='white' size={42} />Back</Button></Col>
+          <Col><Link to='/'><Button variant='primary'>&lsaquo; Back</Button></Link></Col>
         </Row>
         <Row>
           <Col><DetailImage cover={pDetail.thumbnail} imglist={pDetail.metadata.imgList} /></Col>
@@ -54,7 +60,7 @@ function PagePropertyDetail (props) {
         <Row>
           <Col><DetailInfo
             title={pDetail.title}
-            ptype={pDetail.metadate.type}
+            ptype={pDetail.metadata.type}
             addr={pDetail.address}
             nbed={pDetail.metadata.numBed}
             nbath={pDetail.metadata.numBath}
@@ -66,7 +72,7 @@ function PagePropertyDetail (props) {
           <Col><ApplicantSection token={token} uemail={uemail} pid={pid} price={pDetail.price} /></Col>
         </Row>
         <Row>
-          <Col><DetailReview pid={pid} /></Col>
+          <Col><DetailReview reviews={pDetail.reviews} /></Col>
         </Row>
       </Container>
     </>

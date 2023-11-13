@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { useNavigate as navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import ApplicantBooking from './ApplicantBooking';
 import ApplicantReview from './ApplicantReview';
@@ -23,6 +23,8 @@ function ApplicantSection (props) {
   const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
+
+  const navigate = useNavigate();
 
   // private: make a book
   function MakeBooking () {
@@ -64,7 +66,7 @@ function ApplicantSection (props) {
       <Button variant='primary' onClick={() => MakeBooking()}>Book</Button>
       <br />
       <h5>My Bookings</h5>
-      <ApplicantBooking token={token} uemail={uemail} />
+      <ApplicantBooking />
       <h5>Leave A Review</h5>
       <ApplicantReview token={token} uemail={uemail} pid={pid} bid={whichBooking()} />
     </Container>

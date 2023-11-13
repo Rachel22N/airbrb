@@ -10,19 +10,14 @@ function DetailInfo (props) {
 
   return (
     <Container fluid>
-      <Row><Col><h3>${price}</h3></Col></Row>
       <Row>
         <Col>
-          <section className='detailinfo-infoframe'>
-            <section>
-              <section className='detailinfo-title'>{title}</section>
-              <section className='detailinfo-type'>{ptype}</section>
-            </section>
-            <section className='detailinfo-addr'>{addr}</section>
-            <section className='detailinfo-facility'>{nbed} Bed {nbath} Bathroom {nroom} Room</section>
-          </section>
+          <section className='fs-2'>{title}</section>
+          <section>{ptype}</section>
+          <section>{addr.street} {addr.city}, {addr.state} {addr.postcode}, {addr.country}</section>
+          <section>{nbed} Bed {nbath} Bathroom {nroom} Room</section>
         </Col>
-        <Col xs={0} md={3}><h3>${price}</h3></Col>
+        <Col xs={0} md={3} className='fs-2'>${price}</Col>
       </Row>
     </Container>
   )

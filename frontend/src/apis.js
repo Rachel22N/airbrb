@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 // backend apis implementations
 
 const fetchDomain = 'localhost'
@@ -29,7 +30,7 @@ const apiPostAuth = (path, token, body) => {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify(body)
     })
@@ -69,7 +70,7 @@ const apiGetAuth = (path, token, queryString) => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
       }
     })
       .then((response) => response.json())
@@ -89,7 +90,7 @@ const apiPutAuth = (path, token, body) => {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + token
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify(body)
     })
@@ -110,7 +111,7 @@ const apiDeleteAuth = (path, token) => {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer ' + token
+        'Authorization': 'Bearer ' + token
       }
     })
       .then((response) => response.json())
@@ -136,7 +137,7 @@ export const authRegister = (email, password, name) => {
 
 // POST /user/auth/login
 export const authLogin = (email, password) => {
-  return apiPost('auth/login', {
+  return apiPost('user/auth/login', {
     email,
     password
   });
@@ -144,7 +145,7 @@ export const authLogin = (email, password) => {
 
 // POST /user/auth/logout
 export const authLogout = (token) => {
-  return apiPostAuth('auth/logout', token, {});
+  return apiPostAuth('user/auth/logout', token, {});
 }
 
 // GET /listings

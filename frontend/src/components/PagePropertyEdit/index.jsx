@@ -1,13 +1,12 @@
-import { React, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import ChavronLeft from 'react-bootstrap-icons';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { useNavigate as navigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { listDetail, listCreate, listUpdate } from '../../apis';
 import { fileToDataUrl } from '../../helpers'
@@ -18,6 +17,7 @@ function PagePropertyEdit () {
   const token = localStorage.getItem('token');
   const uemail = localStorage.getItem('userId');
   const pid = useParams().listingId;
+  console.log(`[INFO] PropertyEdit/Create: ${pid}`)
 
   // state
   const [thumb, setThumb] = useState('');
@@ -28,11 +28,10 @@ function PagePropertyEdit () {
   const [state, setState] = useState('');
   const [postcode, setPostcode] = useState('');
   const [country, setCountry] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('House');
   const [price, setPrice] = useState(0);
   const [nbed, setNbed] = useState(1);
   const [nbath, setNbath] = useState(1);
-  const [amenity, setAmenity] = useState('');
   const [aWifi, setAWifi] = useState(false);
   const [aPark, setAPark] = useState(false);
   const [aAC, setAAC] = useState(false);
@@ -41,6 +40,8 @@ function PagePropertyEdit () {
   const [aSPA, setASPA] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
+
+  const navigate = useNavigate();
 
   // private: update property
   function pUpdate () {
@@ -51,10 +52,10 @@ function PagePropertyEdit () {
       { street, city, state, postcode, country },
       price,
       thumb,
-      { nbed, nbath, amenities: amenity, imglist },
+      { type, numBed: nbed, numBath: nbath, wifi: aWifi, parking: aPark, airConditioning: aAC, breakfast: aBreakfast, pets: aPets, spa: aSPA, imgList: imglist }
     )
       .then((res) => {
-        navigate('/dashboard');
+        return navigate('/dashboard');
       })
       .catch((res) => {
         setAlert(true);
@@ -70,10 +71,10 @@ function PagePropertyEdit () {
       { street, city, state, postcode, country },
       price,
       thumb,
-      { nbed, nbath, amenities: amenity, imglist },
+      { type, numBed: nbed, numBath: nbath, wifi: aWifi, parking: aPark, airConditioning: aAC, breakfast: aBreakfast, pets: aPets, spa: aSPA, imgList: imglist }
     )
       .then((res) => {
-        navigate('/dashboard');
+        return navigate('/dashboard');
       })
       .catch((res) => {
         setAlert(true);
@@ -93,59 +94,66 @@ function PagePropertyEdit () {
 
   // private set imglist
   function parseImglist (files) {
-    const ret = [];
-    files.forEach(x => {
-      fileToDataUrl(x)
-        .then((res) => ret.push(res))
+    console.log(files);
+    for (let i = 0; i < files.length; i++) {
+      fileToDataUrl(files[i])
+        .then((res) => {
+          const tmp = imglist;
+          tmp.push(res);
+          setImglist(tmp);
+        })
         .catch((res) => {
           setAlert(true);
           setAlertMsg(res);
         })
-    });
-    setImglist(ret);
+    }
   }
 
   // fetch property detail, or create property
-  if (pid) {
-    listDetail(pid)
-      .then((res) => {
-        setThumb(res.thumbnail);
-        setImglist(res.metadata.imgList);
-        setTitle(res.title);
-        setStreet(res.address.street);
-        setCity(res.address.city);
-        setState(res.address.state);
-        setPostcode(res.address.postcode);
-        setCountry(res.address.country);
-        setType(res.metadata.type);
-        setPrice(res.price);
-        setNbed(res.metadata.numBed);
-        setNbath(res.metadata.numBath);
-        setAWifi(res.metadata.wifi);
-        setAPark(res.metadata.parking);
-        setAAC(res.metadata.airConditioning);
-        setABreakfast(res.metadata.breakfast);
-        setAPets(res.metadata.pets);
-        setASPA(res.metadata.spa);
-      })
-      .catch((res) => {
+  useEffect(() => {
+    if (!pid) return;
+    const fetchData = async () => {
+      try {
+        const res = await listDetail(pid);
+        setThumb(res.listing.thumbnail);
+        setImglist(res.listing.metadata.imgList);
+        setTitle(res.listing.title);
+        setStreet(res.listing.address.street);
+        setCity(res.listing.address.city);
+        setState(res.listing.address.state);
+        setPostcode(res.listing.address.postcode);
+        setCountry(res.listing.address.country);
+        setType(res.listing.metadata.type);
+        setPrice(res.listing.price);
+        setNbed(res.listing.metadata.numBed);
+        setNbath(res.listing.metadata.numBath);
+        setAWifi(res.listing.metadata.wifi);
+        setAPark(res.listing.metadata.parking);
+        setAAC(res.listing.metadata.airConditioning);
+        setABreakfast(res.listing.metadata.breakfast);
+        setAPets(res.listing.metadata.pets);
+        setASPA(res.listing.metadata.spa);
+      } catch (error) {
         setAlert(true);
-        setAlertMsg(res);
-      })
-  }
+        setAlertMsg(error);
+      }
+    };
+
+    fetchData();
+  }, [pid]);
 
   return (
     <Container fluid>
       <InterfaceHeader uemail={uemail} />
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Row>
-        <Col><Button variant='primary'><ChavronLeft color='white' size={42} />Back</Button></Col>
+        <Col><Link to='/dashboard'><Button variant='primary'>&lsaquo; Back</Button></Link></Col>
       </Row>
       <Row>
         <Col><Form>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-thumbnail'>
             <Form.Label column sm='2'>Thumbnail</Form.Label>
-            <Col sm='10'><Form.Control type='file' value={thumb} onChange={e => parseThumb(e.target.files[0])} /></Col>
+            <Col sm='10'><Form.Control type='file' onChange={e => parseThumb(e.target.files[0])} /></Col>
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-title'>
             <Form.Label column sm='2'>Title</Form.Label>
@@ -207,19 +215,15 @@ function PagePropertyEdit () {
             </Form.Select></Col>
           </Form.Group>
           <h5>Amenities</h5>
-          <Form.Check type='checkbox' id='propertyedit-amenities-wifi' label='Wi-Fi' checked={aWifi} onClick={(e) => setAWifi(e.target.checked)} />
-          <Form.Check type='checkbox' id='propertyedit-amenities-park' label='Car Park' checked={aPark} onClick={(e) => setAPark(e.target.checked)} />
-          <Form.Check type='checkbox' id='propertyedit-amenities-ac' label='A/C' checked={aAC} onClick={(e) => setAAC(e.target.checked)} />
-          <Form.Check type='checkbox' id='propertyedit-amenities-breakfast' label='Breakfast Included' checked={aBreakfast} onClick={(e) => setABreakfast(e.target.checked)} />
-          <Form.Check type='checkbox' id='propertyedit-amenities-pets' label='Pets Allowed' checked={aPets} onClick={(e) => setAPets(e.target.checked)} />
-          <Form.Check type='checkbox' id='propertyedit-amenities-spa' label='SPA Facility' checked={aSPA} onClick={(e) => setASPA(e.target.checked)} />
-          <Form.Group as={Row} className='mb-3' controlId='propertyedit-amenities'>
-            <Form.Label column sm='2'>Amenities</Form.Label>
-            <Col sm='10'><Form.Control type='text' value={amenity} onChange={e => setAmenity(e.target.value)} /></Col>
-          </Form.Group>
+          <Form.Check type='checkbox' id='propertyedit-amenities-wifi' label='Wi-Fi' checked={aWifi} onChange={(e) => setAWifi(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-park' label='Car Park' checked={aPark} onChange={(e) => setAPark(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-ac' label='A/C' checked={aAC} onChange={(e) => setAAC(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-breakfast' label='Breakfast Included' checked={aBreakfast} onChange={(e) => setABreakfast(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-pets' label='Pets Allowed' checked={aPets} onChange={(e) => setAPets(e.target.checked)} />
+          <Form.Check type='checkbox' id='propertyedit-amenities-spa' label='SPA Facility' checked={aSPA} onChange={(e) => setASPA(e.target.checked)} />
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-imglist'>
             <Form.Label column sm='2'>Other Images</Form.Label>
-            <Col sm='10'><Form.Control type='file' multiple value={imglist} onChange={e => parseImglist(e.target.files)} /></Col>
+            <Col sm='10'><Form.Control type='file' multiple onChange={e => parseImglist(e.target.files)} /></Col>
           </Form.Group>
         </Form></Col>
         {
