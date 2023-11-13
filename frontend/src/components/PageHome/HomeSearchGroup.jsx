@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -27,9 +27,9 @@ export function HomeSearchGroup () {
     setSearchConditions({ text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate })
   }
 
-  useEffect(() => {
-    updateSearch()
-  }, [text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate])
+  // useEffect(() => {
+  //   updateSearch()
+  // }, [text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate])
 
   return (
     <Container fluid id='home-searchgroup'>
@@ -78,7 +78,7 @@ export function HomeSearchGroup () {
         </Form.Select></Col>
       </Form.Group>
       <br />
-      <Button variant='primary'>Filter</Button>
+      <Button variant='primary' onClick={() => updateSearch()}>Filter</Button>
     </Container>
   )
 }

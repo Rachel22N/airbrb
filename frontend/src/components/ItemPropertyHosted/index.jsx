@@ -107,8 +107,8 @@ function ItemPropertyHosted (props) {
           <h2>${price}</h2>
           {reviews.length} Reviews
         </Card.Text>
-        <Button variant='primary'>Edit</Button>
-        <Button variant='primary'>Manage Booking</Button>
+        <Button variant='primary' onClick={() => navigate(`/listings/edit/${pid}`)}>Edit</Button>
+        <Button variant='primary' onClick={() => navigate(`/listings/manage/${pid}`)}>Manage Booking</Button>
         {
           published
             ? <Button variant='primary' onClick={() => pUnpublish()}>Unpublish</Button>
