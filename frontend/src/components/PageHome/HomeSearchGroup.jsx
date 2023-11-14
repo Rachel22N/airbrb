@@ -13,8 +13,8 @@ export function HomeSearchGroup () {
   // filter global state
   const [text, setText] = useState('');
   const [nBed, setNbed] = useState(0);
-  const [dateStart, setDateStart] = useState(new Date(0));
-  const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
+  const [dateStart, setDateStart] = useState(null);
+  const [dateEnd, setDateEnd] = useState(null);
   const [priceStart, setPriceStart] = useState(0);
   const [priceEnd, setPriceEnd] = useState(Infinity);
   const [sortRate, setSortRate] = useState('highest');
@@ -27,10 +27,6 @@ export function HomeSearchGroup () {
     setSearchConditions({ text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate })
   }
 
-  // useEffect(() => {
-  //   updateSearch()
-  // }, [text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate])
-
   return (
     <Container fluid id='home-searchgroup'>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-general'>
@@ -41,7 +37,7 @@ export function HomeSearchGroup () {
       <h5>Facility</h5>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-nbed'>
         <Form.Label column sm='2'>Beds</Form.Label>
-        <Col sm='10'><Form.Select onChange={e => setNbed(parseInt(e.target.value))} defaultValue='1'>
+        <Col sm='10'><Form.Select onChange={e => setNbed(parseInt(e.target.value))}>
           <option>1</option>
           <option>2</option>
           <option>3</option>

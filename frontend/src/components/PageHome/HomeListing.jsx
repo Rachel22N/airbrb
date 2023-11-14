@@ -10,21 +10,29 @@ import { listGet, listDetail, bookGet } from '../../apis';
 import ItemPropertyGeneric from '../ItemPropertyGeneric';
 import { useSearchContext } from './HomeSearchContext';
 
-// TODO: iteratively check date range
 function HomeListing () {
   // props/globals
   const { text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate } = useSearchContext().searchConditions;
-  console.log('[INFO][Filter]', text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate);
   const token = localStorage.getItem('token');
   const uemail = localStorage.getItem('userId');
   const promises = [];
 
   // state
+  // const [text] = useState(searchConditions.text);
+  // const [nBed] = useState(searchConditions.nBed);
+  // const [dateStart] = useState(searchConditions.dateStart);
+  // const [dateEnd] = useState(searchConditions.dateEnd);
+  // const [priceStart] = useState(searchConditions.priceStart);
+  // const [priceEnd] = useState(searchConditions.priceEnd);
+  // const [sortRate] = useState(searchConditions.sortRate);
+
   const [alertToken, setAlertToken] = useState(false);
   const [plist, setPlist] = useState([]);
   const [blist, setBlist] = useState([]);
   const [pDetailList, setPDetailList] = useState([]);
   const [loadComplete, setLoadComplete] = useState(false);
+
+  console.log('[INFO][Filter]', text, nBed, dateStart, dateEnd, priceStart, priceEnd, sortRate);
 
   // private: check listing my status
   function pStatus (pid) {
@@ -56,7 +64,7 @@ function HomeListing () {
     }
     fetchBook();
     fetchData();
-  }, [text]);
+  }, [token]);
 
   // stage 2: map property ids to details
   useEffect(() => {
@@ -114,8 +122,6 @@ function HomeListing () {
   }
 
   if (!loadComplete) return (<>Nothing to Display...</>)
-  console.log(pDetailList);
-  console.log(blist);
 
   let get = pDetailList.filter(x => x.id !== -1);
   if (text) get = get.filter(x => x.title.includes(text));
@@ -125,7 +131,7 @@ function HomeListing () {
   if (dateEnd) get = get.filter(x => filterDateEnd(x, dateEnd));
   if (priceStart) get = get.filter(x => x.price >= priceStart);
   if (priceEnd) get = get.filter(x => x.price <= priceEnd);
-  sortRate === 'Highest' ? get.sort((a, b) => b.rate - a.rate) : get.sort((a, b) => a.rate - b.rate);
+  sortRate === 'highest' ? get.sort((a, b) => b.rate - a.rate) : get.sort((a, b) => a.rate - b.rate);
   const myProps = get;
 
   return (
