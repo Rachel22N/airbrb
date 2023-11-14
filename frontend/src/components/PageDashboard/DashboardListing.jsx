@@ -45,7 +45,7 @@ function DashboardListing () {
               // calc avg rate
               let scoreSum = 0;
               if (res2.listing.reviews) res2.listing.reviews.forEach(x => { scoreSum += x.rate });
-              const scoreAvg = scoreSum ? scoreSum / res2.reviews.length : 0;
+              const scoreAvg = scoreSum ? Math.round(scoreSum / res2.listing.reviews.length * 10) / 10 : 0;
               const tmp = pDetailList;
               for (const x of tmp) if (x.id === p) return;
               tmp.push({

@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
@@ -21,8 +21,10 @@ function ApplicantSection (props) {
   // state
   const [dateStart, setDateStart] = useState(new Date(0));
   const [dateEnd, setDateEnd] = useState(new Date(2099, 12, 31));
+  const [lastAccepted, setLastAccepted] = useState(null);
   const [alert, setAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
+  const [loadComplete, setLoadComplete] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,18 +40,20 @@ function ApplicantSection (props) {
   }
 
   // def: return last accepted booking id of this property
-  function whichBooking () {
-    bookGet(token)
+  useEffect(() => {
+    Promise.allSettled(bookGet(token)
       .then((res) => {
         const bookings = res.bookings.filter((x) => x.owner === uemail && x.listingId === pid && x.status === 'accepted');
-        if (bookings.length) return bookings[0].id; else return -1;
+        if (bookings.length) setLastAccepted(bookings[0].id);
       })
       .catch((res) => {
         setAlert(true);
         setAlertMsg(res);
         return -1;
-      })
-  }
+      })).finally(() => setLoadComplete(true))
+  }, [token])
+
+  if (!loadComplete) return (<>Please Wait...</>)
 
   return (
     <Container>
@@ -66,9 +70,9 @@ function ApplicantSection (props) {
       <Button variant='primary' onClick={() => MakeBooking()}>Book</Button>
       <br />
       <h5>My Bookings</h5>
-      <ApplicantBooking />
+      <ApplicantBooking pid={pid} />
       <h5>Leave A Review</h5>
-      <ApplicantReview token={token} uemail={uemail} pid={pid} bid={whichBooking()} />
+      <ApplicantReview pid={pid} bid={lastAccepted} />
     </Container>
   )
 }

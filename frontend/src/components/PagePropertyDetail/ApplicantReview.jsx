@@ -23,11 +23,7 @@ function ApplicantReview (props) {
 
   // post a new review
   function fetchPostReview () {
-    listReview(token, pid, bid, {
-      user: uemail,
-      rate: prate,
-      review: comment
-    })
+    listReview(token, pid, bid, { user: uemail, rate: prate, review: comment })
       .catch((res) => {
         setAlertToken(true);
         setAlertMsg(res);
@@ -54,7 +50,7 @@ function ApplicantReview (props) {
               <option>4</option>
             </Form.Select></Col>
           </Form.Group>
-          { bid ? <Button variant='primary' onClick={fetchPostReview}>Publish</Button> : <Button variant='primary' disabled>Publish</Button> }
+          { bid ? <Button variant='primary' onClick={() => fetchPostReview()}>Publish</Button> : <Button variant='primary' disabled>Publish</Button> }
         </Col>
       </Row>
     </Container>

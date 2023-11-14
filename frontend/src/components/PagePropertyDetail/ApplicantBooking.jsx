@@ -5,8 +5,9 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 import { bookGet } from '../../apis';
 
-function ApplicantBooking () {
+function ApplicantBooking (props) {
   // props
+  const { pid } = props;
   const token = localStorage.getItem('token');
   const uemail = localStorage.getItem('userId');
 
@@ -19,7 +20,7 @@ function ApplicantBooking () {
   useEffect(() => {
     Promise.allSettled(bookGet(token)
       .then((res) => {
-        setBlist(res.bookings.filter((x) => x.owner === uemail));
+        setBlist(res.bookings.filter((x) => x.owner === uemail && x.listingId === pid));
       })
       .catch((res) => {
         setAlertToken(true);
@@ -35,7 +36,11 @@ function ApplicantBooking () {
         {
           blist &&
           blist.map((x, idx) =>
-            <ListGroup.Item key={idx}>{new Date(x.dateRange.start).toDateString()} -- {new Date(x.dateRange.end).toDateString()}</ListGroup.Item>
+            x.status === 'accepted'
+              ? <ListGroup.Item key={idx} className='bg-success-subtle'>{new Date(x.dateRange.start).toDateString()} -- {new Date(x.dateRange.end).toDateString()}</ListGroup.Item>
+              : x.status === 'pending'
+                ? <ListGroup.Item key={idx} className='bg-warning-subtle'>{new Date(x.dateRange.start).toDateString()} -- {new Date(x.dateRange.end).toDateString()}</ListGroup.Item>
+                : <ListGroup.Item key={idx} className='bg-danger-subtle'>{new Date(x.dateRange.start).toDateString()} -- {new Date(x.dateRange.end).toDateString()}</ListGroup.Item>
           )
         }
       </ListGroup>

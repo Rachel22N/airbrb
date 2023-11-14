@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 function ItemPropertyGeneric (props) {
-  const { pid, title, thumb, price, reviews } = props;
+  const { pid, title, thumb, price, reviews, status } = props;
 
   return (
     <Card>
@@ -16,6 +16,12 @@ function ItemPropertyGeneric (props) {
         <Card.Subtitle>#{pid}</Card.Subtitle>
         <Card.Text className='fs-2'>${price}</Card.Text>
         <Card.Text>{reviews.length} Reviews</Card.Text>
+        { status === 'accepted'
+          ? <Card.Text className='text-success'>ACCEPTED</Card.Text>
+          : status === 'pending'
+            ? <Card.Text className='text-warning'>PENDING</Card.Text>
+            : <></>
+        }
         <Link to={`property/${pid}`}><Button variant='primary'>Learn More</Button></Link>
       </Card.Body>
     </Card>

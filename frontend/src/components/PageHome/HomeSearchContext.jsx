@@ -6,8 +6,8 @@ export const HomeSearchProvider = ({ children }) => {
   const [searchConditions, setSearchConditions] = useState({
     text: '',
     nBed: 0,
-    dateStart: new Date(0),
-    dateEnd: new Date(2099, 12, 31),
+    dateStart: null,
+    dateEnd: null,
     priceStart: 0,
     priceEnd: Infinity,
     sortRate: 'Highest'

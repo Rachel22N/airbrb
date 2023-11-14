@@ -30,7 +30,7 @@ function ItemPropertyHosted (props) {
   let rateAvg = 0;
   if (reviews.length) {
     reviews.forEach(x => { rateSun += x.rate });
-    rateAvg = rateSun / reviews.length;
+    rateAvg = Math.round(rateSun / reviews.length * 10) / 10;
   }
 
   // private: add date range

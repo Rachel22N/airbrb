@@ -28,7 +28,7 @@ function DetailReview (props) {
           { reviews && reviews.map((x, idx) =>
             <ListGroup.Item key={idx}>
               <h6>{x.user}</h6>
-              <section>&#xF586; {x.rate}</section>
+              <section>&#10030; {x.rate}</section>
               <p>{x.review}</p>
             </ListGroup.Item>
           ) }
