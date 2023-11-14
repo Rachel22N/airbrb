@@ -62,7 +62,7 @@ function HomeListing () {
         setAlertToken(true);
       }
     }
-    fetchBook();
+    if (token) fetchBook();
     fetchData();
   }, [token]);
 
