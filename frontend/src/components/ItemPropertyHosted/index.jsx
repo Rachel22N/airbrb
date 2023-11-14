@@ -91,9 +91,9 @@ function ItemPropertyHosted (props) {
   if (removed) return (<Card>This item has been removed</Card>)
 
   return (
-    <Card>
+    <Card className='my-2'>
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
-      <Card.Img variant='top' src={thumb} />
+      <Card.Img variant='top' height={200} src={thumb} className='object-fit-cover' />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle>#{pid}</Card.Subtitle>

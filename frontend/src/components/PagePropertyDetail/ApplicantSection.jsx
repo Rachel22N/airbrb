@@ -30,7 +30,7 @@ function ApplicantSection (props) {
 
   // private: make a book
   function MakeBooking () {
-    const days = (dateEnd.getTime() - dateStart.getTime()) / 86400000;
+    const days = ((dateEnd - dateStart) / 86400000) > 0 ? Math.round((dateEnd - dateStart) / 86400000) : 1;
     bookCreate(token, pid, { start: dateStart, end: dateEnd }, days * price)
       .then((res) => navigate('/'))
       .catch((res) => {
@@ -56,23 +56,35 @@ function ApplicantSection (props) {
   if (!loadComplete) return (<>Please Wait...</>)
 
   return (
-    <Container>
-      <h5>Book A Session</h5>
-      { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
-      <Form.Group as={Row} className='mb-3'>
-        <Form.Label column sm='2'>From</Form.Label>
-        <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateStart(new Date(e.target.value))} /></Col>
-      </Form.Group>
-      <Form.Group as={Row} className='mb-3'>
-        <Form.Label column sm='2'>To</Form.Label>
-        <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateEnd(new Date(e.target.value))} /></Col>
-      </Form.Group>
-      <Button variant='primary' onClick={() => MakeBooking()}>Book</Button>
-      <br />
-      <h5>My Bookings</h5>
-      <ApplicantBooking pid={pid} />
-      <h5>Leave A Review</h5>
-      <ApplicantReview pid={pid} bid={lastAccepted} />
+    <Container fluid className='bg-body-secondary'>
+      <Row className='mb-5 py-2'><Col>
+        <h5>Book A Session</h5>
+        { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
+        <Form.Group as={Row} className='mb-3'>
+          <Form.Label column sm='2'>From</Form.Label>
+          <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateStart(new Date(e.target.value))} /></Col>
+        </Form.Group>
+        <Form.Group as={Row} className='mb-3'>
+          <Form.Label column sm='2'>To</Form.Label>
+          <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateEnd(new Date(e.target.value))} /></Col>
+        </Form.Group>
+        <Row className='align-items-center'>
+          <Col sm='6' className='d-grid'><Button variant='outline-primary' onClick={() => MakeBooking()}>Book</Button></Col>
+          <Col sm='6'>Total Payment: <section className='fs-2'>${
+            dateStart.getTime() === new Date(0).getTime() && dateEnd.getTime() === new Date(2099, 12, 31).getTime()
+              ? 0
+              : Math.round((dateEnd - dateStart) / 86400000) > 0
+                ? Math.round((dateEnd - dateStart) / 86400000) * price
+                : price
+          }</section></Col>
+        </Row>
+      </Col></Row>
+      <Row className='mb-5'>
+        <ApplicantBooking pid={pid} />
+      </Row>
+      <Row>
+        <ApplicantReview pid={pid} bid={lastAccepted} />
+      </Row>
     </Container>
   )
 }

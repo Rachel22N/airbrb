@@ -15,11 +15,11 @@ function DetailImage (props) {
       <Row>
         <Col>
           <Carousel className='bg-secondary'>
-            <Carousel.Item><Image src={cover} /></Carousel.Item>
+            <Carousel.Item><Image src={cover} height={500} className='w-100 object-fit-contain' /></Carousel.Item>
             {
               imglist &&
               imglist.map((x, idx) =>
-                <Carousel.Item key={idx}><Image src={x} /></Carousel.Item>
+                <Carousel.Item key={idx}><Image src={x} height={500} className='w-100 object-fit-contain' /></Carousel.Item>
               )
             }
           </Carousel>

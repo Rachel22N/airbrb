@@ -2,7 +2,6 @@ import { React, useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -51,13 +50,13 @@ function PagePropertyDetail () {
       <InterfaceHeader />
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Container fluid>
-        <Row>
-          <Col><Link to='/'><Button variant='primary'>&lsaquo; Back</Button></Link></Col>
+        <Row className='my-5'>
+          <Col><Link to='/' className='fs-5 link-underline link-underline-opacity-0'>&#8617; Back</Link></Col>
         </Row>
         <Row>
-          <Col><DetailImage cover={pDetail.thumbnail} imglist={pDetail.metadata.imgList} /></Col>
+          <DetailImage cover={pDetail.thumbnail} imglist={pDetail.metadata.imgList} />
         </Row>
-        <Row>
+        <Row className='mb-5'>
           <Col><DetailInfo
             title={pDetail.title}
             ptype={pDetail.metadata.type}
@@ -68,7 +67,7 @@ function PagePropertyDetail () {
             price={pDetail.price}
           /></Col>
         </Row>
-        <Row>
+        <Row className='mb-5'>
           <Col><ApplicantSection token={token} uemail={uemail} pid={pid} price={pDetail.price} /></Col>
         </Row>
         <Row>

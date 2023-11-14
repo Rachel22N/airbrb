@@ -13,11 +13,11 @@ function DetailInfo (props) {
       <Row>
         <Col>
           <section className='fs-2'>{title}</section>
-          <section>{ptype}</section>
+          <b>{ptype}</b>
           <section>{addr.street} {addr.city}, {addr.state} {addr.postcode}, {addr.country}</section>
           <section>{nbed} Bed {nbath} Bathroom {nroom} Room</section>
         </Col>
-        <Col xs={0} md={3} className='fs-2'>${price}</Col>
+        <Col xs={0} md={3} className='fs-1 text-end'>${price}</Col>
       </Row>
     </Container>
   )

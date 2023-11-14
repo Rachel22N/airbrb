@@ -1,6 +1,7 @@
 // this component is for listing item display on homepage
 
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
@@ -9,8 +10,8 @@ function ItemPropertyGeneric (props) {
   const { pid, title, thumb, price, reviews, status } = props;
 
   return (
-    <Card>
-      <Card.Img variant='top' src={thumb} />
+    <Card className='my-2'>
+      <Card.Img variant='top' height={200} src={thumb} className='object-fit-cover' />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle>#{pid}</Card.Subtitle>

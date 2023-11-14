@@ -31,7 +31,8 @@ function ApplicantReview (props) {
   }
 
   return (
-    <Container>
+    <Container fluid>
+      <h5>Leave A Review</h5>
       { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>{alertMsg}</Alert> }
       <Row>
         <Col><Form.Group className='mb-3' controlId='applicant-review-text'>
@@ -41,16 +42,18 @@ function ApplicantReview (props) {
       <Row>
         <Col>
           <Form.Group as={Row} className='mb-3' controlId='applicant-review-rate'>
-            <Form.Label column sm='2'>Rate</Form.Label>
-            <Col sm='10'><Form.Select onChange={e => setRate(parseInt(e.target.value))} defaultValue='5'>
+            <Form.Label column sm='1'>Rate</Form.Label>
+            <Col sm='2'><Form.Select onChange={e => setRate(parseInt(e.target.value))} defaultValue='5'>
               <option>5</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
               <option>4</option>
+              <option>3</option>
+              <option>2</option>
+              <option>1</option>
             </Form.Select></Col>
+            <Col sm='9' className='d-grid'>
+              { bid ? <Button variant='outline-primary' onClick={() => fetchPostReview()}>Publish</Button> : <Button variant='outline-secondary' disabled>You Haven&apos;t Tried This</Button> }
+            </Col>
           </Form.Group>
-          { bid ? <Button variant='primary' onClick={() => fetchPostReview()}>Publish</Button> : <Button variant='primary' disabled>Publish</Button> }
         </Col>
       </Row>
     </Container>
