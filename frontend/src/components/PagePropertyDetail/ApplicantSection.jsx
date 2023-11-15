@@ -32,7 +32,7 @@ function ApplicantSection (props) {
   function MakeBooking () {
     const days = ((dateEnd - dateStart) / 86400000) > 0 ? Math.round((dateEnd - dateStart) / 86400000) : 1;
     bookCreate(token, pid, { start: dateStart, end: dateEnd }, days * price)
-      .then((res) => navigate('/'))
+      .then((res) => navigate(`/response/success/${pid}`))
       .catch((res) => {
         setAlert(true);
         setAlertMsg(res);

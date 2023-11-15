@@ -38,6 +38,7 @@ export function HomeSearchGroup () {
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-nbed'>
         <Form.Label column sm='2'>Beds</Form.Label>
         <Col sm='10'><Form.Select onChange={e => setNbed(parseInt(e.target.value))}>
+          <option>0</option>
           <option>1</option>
           <option>2</option>
           <option>3</option>

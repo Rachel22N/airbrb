@@ -17,15 +17,6 @@ function HomeListing () {
   const uemail = localStorage.getItem('userId');
   const promises = [];
 
-  // state
-  // const [text] = useState(searchConditions.text);
-  // const [nBed] = useState(searchConditions.nBed);
-  // const [dateStart] = useState(searchConditions.dateStart);
-  // const [dateEnd] = useState(searchConditions.dateEnd);
-  // const [priceStart] = useState(searchConditions.priceStart);
-  // const [priceEnd] = useState(searchConditions.priceEnd);
-  // const [sortRate] = useState(searchConditions.sortRate);
-
   const [alertToken, setAlertToken] = useState(false);
   const [plist, setPlist] = useState([]);
   const [blist, setBlist] = useState([]);
@@ -86,7 +77,7 @@ function HomeListing () {
                 title: res2.listing.title,
                 price: res2.listing.price,
                 availability: res2.listing.availability,
-                nbed: res2.listing.metadata.numBed,
+                nbed: parseInt(res2.listing.metadata.numBed),
                 rate: scoreAvg,
                 reviews: res2.listing.reviews,
                 status: pStatus(p)
@@ -122,6 +113,8 @@ function HomeListing () {
   }
 
   if (!loadComplete) return (<>Nothing to Display...</>)
+
+  console.log(pDetailList);
 
   let get = pDetailList.filter(x => x.id !== -1);
   if (text) get = get.filter(x => x.title.includes(text));
