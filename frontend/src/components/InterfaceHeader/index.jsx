@@ -32,7 +32,7 @@ function InterfaceHeader () {
           <Nav.Link href='/'>Home</Nav.Link>
         {
           // depend on if user logined
-          uemail
+          uemail && token
             ? <>
               <Nav.Link href='/dashboard'>Dashboard</Nav.Link>
               <Nav.Link href='/' onClick={() => go()}>Logout</Nav.Link>

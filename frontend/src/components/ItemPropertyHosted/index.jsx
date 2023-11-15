@@ -1,4 +1,4 @@
-// this component is for listing item display on homepage
+// this component is for listing item display on dashboard
 
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';

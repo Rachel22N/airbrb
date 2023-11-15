@@ -32,6 +32,7 @@ function PagePropertyEdit () {
   const [price, setPrice] = useState(0);
   const [nbed, setNbed] = useState(1);
   const [nbath, setNbath] = useState(1);
+  const [nroom, setNroom] = useState(1);
   const [aWifi, setAWifi] = useState(false);
   const [aPark, setAPark] = useState(false);
   const [aAC, setAAC] = useState(false);
@@ -52,7 +53,7 @@ function PagePropertyEdit () {
       { street, city, state, postcode, country },
       price,
       thumb,
-      { type, numBed: nbed, numBath: nbath, wifi: aWifi, parking: aPark, airConditioning: aAC, breakfast: aBreakfast, pets: aPets, spa: aSPA, imgList: imglist }
+      { type, numBed: nbed, numBath: nbath, numRoom: nroom, wifi: aWifi, parking: aPark, airConditioning: aAC, breakfast: aBreakfast, pets: aPets, spa: aSPA, imgList: imglist }
     )
       .then((res) => {
         return navigate('/dashboard');
@@ -71,7 +72,7 @@ function PagePropertyEdit () {
       { street, city, state, postcode, country },
       price,
       thumb,
-      { type, numBed: nbed, numBath: nbath, wifi: aWifi, parking: aPark, airConditioning: aAC, breakfast: aBreakfast, pets: aPets, spa: aSPA, imgList: imglist }
+      { type, numBed: nbed, numBath: nbath, numRoom: nroom, wifi: aWifi, parking: aPark, airConditioning: aAC, breakfast: aBreakfast, pets: aPets, spa: aSPA, imgList: imglist }
     )
       .then((res) => {
         return navigate('/dashboard');
@@ -127,6 +128,7 @@ function PagePropertyEdit () {
         setPrice(res.listing.price);
         setNbed(res.listing.metadata.numBed);
         setNbath(res.listing.metadata.numBath);
+        setNroom(res.listing.metadata.numRoom);
         setAWifi(res.listing.metadata.wifi);
         setAPark(res.listing.metadata.parking);
         setAAC(res.listing.metadata.airConditioning);
@@ -143,23 +145,29 @@ function PagePropertyEdit () {
   }, [pid]);
 
   return (
+    <><InterfaceHeader uemail={uemail} />
     <Container fluid>
-      <InterfaceHeader uemail={uemail} />
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
-      <Row>
-        <Col><Link to='/dashboard'><Button variant='primary'>&lsaquo; Back</Button></Link></Col>
+      <Row className='my-5'>
+        <Col><Link to='/' className='fs-5 link-underline link-underline-opacity-0'>&#8617; Back</Link></Col>
       </Row>
-      <Row>
+      <Row className='mx-5'>
         <Col><Form>
+          <h5>Pictures</h5>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-thumbnail'>
             <Form.Label column sm='2'>Thumbnail</Form.Label>
             <Col sm='10'><Form.Control type='file' onChange={e => parseThumb(e.target.files[0])} /></Col>
           </Form.Group>
+          <Form.Group as={Row} className='mb-3' controlId='propertyedit-imglist'>
+            <Form.Label column sm='2'>Other Images</Form.Label>
+            <Col sm='10'><Form.Control type='file' multiple onChange={e => parseImglist(e.target.files)} /></Col>
+          </Form.Group>
+          <h5 className='mt-5'>Name</h5>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-title'>
             <Form.Label column sm='2'>Title</Form.Label>
             <Col sm='10'><Form.Control type='text' value={title} onChange={e => setTitle(e.target.value)} /></Col>
           </Form.Group>
-          <h3>Address</h3>
+          <h5 className='mt-5'>Address</h5>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-address-street'>
             <Form.Label column sm='2'>Street</Form.Label>
             <Col sm='10'><Form.Control type='text' value={street} onChange={e => setStreet(e.target.value)} /></Col>
@@ -180,12 +188,13 @@ function PagePropertyEdit () {
             <Form.Label column sm='2'>Country</Form.Label>
             <Col sm='10'><Form.Control type='text' value={country} onChange={e => setCountry(e.target.value)} /></Col>
           </Form.Group>
-          <br />
+          <h5 className='mt-5'>Detail</h5>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-type'>
             <Form.Label column sm='2'>Type</Form.Label>
             <Col sm='10'><Form.Select value={type} onChange={e => setType(e.target.value)} defaultValue='House'>
               <option>House</option>
               <option>Apartment</option>
+              <option>Studio</option>
             </Form.Select></Col>
           </Form.Group>
           <Form.Group as={Row} className='mb-3' controlId='propertyedit-price'>
@@ -214,25 +223,34 @@ function PagePropertyEdit () {
               <option>6</option>
             </Form.Select></Col>
           </Form.Group>
-          <h5>Amenities</h5>
+          <Form.Group as={Row} className='mb-3' controlId='propertyedit-nroom'>
+            <Form.Label column sm='2'>#Room</Form.Label>
+            <Col sm='10'><Form.Select value={nroom} onChange={e => setNroom(e.target.value)} defaultValue='1'>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </Form.Select></Col>
+          </Form.Group>
+          <h5 className='mt-5'>Amenities</h5>
           <Form.Check type='checkbox' id='propertyedit-amenities-wifi' label='Wi-Fi' checked={aWifi} onChange={(e) => setAWifi(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-park' label='Car Park' checked={aPark} onChange={(e) => setAPark(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-ac' label='A/C' checked={aAC} onChange={(e) => setAAC(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-breakfast' label='Breakfast Included' checked={aBreakfast} onChange={(e) => setABreakfast(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-pets' label='Pets Allowed' checked={aPets} onChange={(e) => setAPets(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-spa' label='SPA Facility' checked={aSPA} onChange={(e) => setASPA(e.target.checked)} />
-          <Form.Group as={Row} className='mb-3' controlId='propertyedit-imglist'>
-            <Form.Label column sm='2'>Other Images</Form.Label>
-            <Col sm='10'><Form.Control type='file' multiple onChange={e => parseImglist(e.target.files)} /></Col>
-          </Form.Group>
+          <Row className='my-5'><Col className='d-grid'>
+          {
+            pid
+              ? <Button variant='primary' onClick={() => pUpdate()}>Save</Button>
+              : <Button variant='primary' onClick={() => pCreate()}>Create</Button>
+          }
+          </Col></Row>
         </Form></Col>
-        {
-          pid
-            ? <Button variant='primary' onClick={() => pUpdate()}>Save</Button>
-            : <Button variant='primary' onClick={() => pCreate()}>Create</Button>
-        }
       </Row>
-    </Container>
+    </Container></>
   )
 }
 
