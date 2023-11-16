@@ -77,6 +77,7 @@ function HomeListing () {
                 title: res2.listing.title,
                 price: res2.listing.price,
                 availability: res2.listing.availability,
+                address: res2.listing.address,
                 nbed: parseInt(res2.listing.metadata.numBed),
                 rate: scoreAvg,
                 reviews: res2.listing.reviews,
@@ -112,12 +113,23 @@ function HomeListing () {
     return false;
   }
 
+  // private: text search
+  function filterKeyWord (iter, given) {
+    const keys = given.toLowerCase().split(' ');
+    const addr = `${iter.address.street}${iter.address.city}${iter.address.state}${iter.address.postcode}${iter.address.country}`.toLowerCase();
+    for (const x of keys) {
+      if (iter.title.toLowerCase().includes(x.trim())) return true;
+      if (addr.includes(x.trim())) return true;
+    }
+    return false;
+  }
+
   if (!loadComplete) return (<>Nothing to Display...</>)
 
   console.log(pDetailList);
 
   let get = pDetailList.filter(x => x.id !== -1);
-  if (text) get = get.filter(x => x.title.includes(text));
+  if (text) get = get.filter(x => filterKeyWord(x, text));
   if (nBed) get = get.filter(x => x.nbed === nBed);
   if (dateStart && dateEnd) get = get.filter(x => filterDateStartEnd(x, dateStart, dateEnd));
   if (dateStart) get = get.filter(x => filterDateStart(x, dateStart));

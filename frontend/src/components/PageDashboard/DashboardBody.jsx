@@ -9,12 +9,8 @@ import Col from 'react-bootstrap/Col';
 import DashboardListing from './DashboardListing';
 
 function DashboardBody () {
-  // todo: your money earned
   return (
     <Container fluid>
-      <Row className='p-5'>
-        <Col>TODO: See how much money you made</Col>
-      </Row>
       <Row className='p-5'>
         <Link to='/property/new'><Col className='d-grid'><Button variant='primary'>Create A New Listing</Button></Col></Link>
       </Row>

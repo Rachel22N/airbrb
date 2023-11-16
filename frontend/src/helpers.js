@@ -39,3 +39,21 @@ export function fromISOTime (iso) {
   const minutes = date.getMinutes();
   return `${day} ${month} ${year} ${hours}:${String(minutes).padStart(2, '0')}`;
 }
+
+// referenced from https://stackoverflow.com/questions/750032/reading-file-contents-on-the-client-side-in-javascript-in-various-browsers
+export function fileToObj (fileObj) {
+  if (fileObj) {
+    const reader = new FileReader();
+    reader.readAsText(fileObj, 'UTF-8');
+    reader.onload = function (evt) {
+      try {
+        return JSON.parse(evt.target.result);
+      } catch (error) {
+        return null;
+      }
+    }
+    reader.onerror = function (evt) {
+      return null;
+    }
+  }
+}

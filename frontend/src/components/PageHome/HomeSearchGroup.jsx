@@ -30,7 +30,7 @@ export function HomeSearchGroup () {
     <Container fluid id='home-searchgroup'>
       <Form.Group as={Row} className='mb-3' controlId='home-searchgroup-general'>
       <Form.Label column sm='3'>Keyword</Form.Label>
-        <Col sm='9'><Form.Control name='home-searchgroup-keyword' type='text' placeholder='Search' onChange={e => setText(e.target.value)} /></Col>
+        <Col sm='9'><Form.Control name='home-searchgroup-keyword' type='text' placeholder='Search by Keyword or Address' onChange={e => setText(e.target.value)} /></Col>
       </Form.Group>
       <br />
       <h5>Facility</h5>
