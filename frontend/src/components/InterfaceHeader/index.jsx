@@ -25,24 +25,34 @@ function InterfaceHeader () {
   }
 
   return (
-    <Navbar expand='lg' className='p-0'>
-      <Container fluid className='bg-danger-subtle'>
-        <Navbar.Brand href='/'><Figure.Image src={Logo} alt='AirBrB logo' height={70} /></Navbar.Brand>
-        <Nav>
-          <Nav.Link href='/'>Home</Nav.Link>
-        {
-          // depend on if user logined
-          uemail && token
-            ? <>
-              <Nav.Link href='/dashboard'>Dashboard</Nav.Link>
-              <Nav.Link href='/' onClick={() => go()}>Logout</Nav.Link>
-            </>
-            : <Nav.Link href='/login'>Login/Register</Nav.Link>
-        }
-        </Nav>
+    <Navbar expand="lg" bg="light" className="p-0">
+      <Container fluid className="bg-danger-subtle">
+        <Navbar.Brand href="/">
+          <Figure.Image src={Logo} alt="AirBrB logo" height={70} />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            {
+              uemail && token
+                ? (
+                <>
+                  <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                  <Nav.Link href="/" onClick={() => go()}>
+                    Logout
+                  </Nav.Link>
+                </>
+                  )
+                : (
+                <Nav.Link href="/login">Login/Register</Nav.Link>
+                  )
+            }
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 }
 
 export default InterfaceHeader;
