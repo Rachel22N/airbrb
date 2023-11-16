@@ -55,6 +55,18 @@ function ApplicantSection (props) {
 
   if (!loadComplete) return (<>Please Wait...</>)
 
+  if (!token || !uemail) {
+    return (
+      <Container fluid className='bg-body-secondary'>
+        <Row className='mb-5 py-2'>
+          <Col>
+            <h5>Login to Make A Booking</h5>
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
+
   return (
     <Container fluid className='bg-body-secondary'>
       <Row className='mb-5 py-2'><Col>

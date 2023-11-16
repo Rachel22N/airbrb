@@ -15,7 +15,6 @@ import InterfaceHeader from '../InterfaceHeader';
 function PagePropertyEdit () {
   // props
   const token = localStorage.getItem('token');
-  const uemail = localStorage.getItem('userId');
   const pid = useParams().listingId;
   console.log(`[INFO] PropertyEdit/Create: ${pid}`)
 
@@ -145,7 +144,7 @@ function PagePropertyEdit () {
   }, [pid]);
 
   return (
-    <><InterfaceHeader uemail={uemail} />
+    <><InterfaceHeader />
     <Container fluid>
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Row className='my-5'>
