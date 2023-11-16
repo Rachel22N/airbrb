@@ -72,11 +72,11 @@ function ApplicantSection (props) {
       <Row className='mb-5 py-2'><Col>
         <h5>Book A Session</h5>
         { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
-        <Form.Group as={Row} className='mb-3'>
+        <Form.Group as={Row} className='mb-3' controlId='book-range-from'>
           <Form.Label column sm='2'>From</Form.Label>
           <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateStart(new Date(e.target.value))} /></Col>
         </Form.Group>
-        <Form.Group as={Row} className='mb-3'>
+        <Form.Group as={Row} className='mb-3' controlId='book-range-to'>
           <Form.Label column sm='2'>To</Form.Label>
           <Col sm='10'><Form.Control type='date' className='form-control' onChange={e => setDateEnd(new Date(e.target.value))} /></Col>
         </Form.Group>

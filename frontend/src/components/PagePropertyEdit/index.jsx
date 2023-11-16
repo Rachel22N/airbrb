@@ -148,7 +148,9 @@ function PagePropertyEdit () {
     <Container fluid>
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
       <Row className='my-5'>
-        <Col><Link to='/' className='fs-5 link-underline link-underline-opacity-0'>&#8617; Back</Link></Col>
+        <Col>
+          <Link to='/dashboard' className='fs-5 link-underline link-underline-opacity-0'>&#8617; Back</Link>
+        </Col>
       </Row>
       <Row className='mx-5'>
         <Col><Form>

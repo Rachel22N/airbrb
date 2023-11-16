@@ -54,7 +54,7 @@ function PagePropertyDetail () {
           <Col><Link to='/' className='fs-5 link-underline link-underline-opacity-0'>&#8617; Back</Link></Col>
         </Row>
         <Row>
-          <DetailImage cover={pDetail.thumbnail} imglist={pDetail.metadata.imgList} />
+          <DetailImage cover={pDetail.thumbnail} imglist={pDetail.metadata.imgList} title={pDetail.title} />
         </Row>
         <Row className='mb-5'>
           <Col><DetailInfo

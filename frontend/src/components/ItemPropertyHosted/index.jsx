@@ -93,7 +93,7 @@ function ItemPropertyHosted (props) {
   return (
     <Card className='my-2'>
       { alert && <Alert variant='danger' onClose={() => setAlert(false)} dismissible>{alertMsg}</Alert> }
-      <Card.Img variant='top' height={200} src={thumb} className='object-fit-cover' />
+      <Card.Img variant='top' height={200} src={thumb} className='object-fit-cover' alt={`Cover image of property ${title}`} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle>#{pid}</Card.Subtitle>

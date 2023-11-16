@@ -8,18 +8,18 @@ import Row from 'react-bootstrap/Row';
 
 function DetailImage (props) {
   // props
-  const { cover, imglist } = props;
+  const { cover, imglist, title } = props;
 
   return (
     <Container fluid>
       <Row>
         <Col>
           <Carousel className='bg-secondary'>
-            <Carousel.Item><Image src={cover} height={500} className='w-100 object-fit-contain' /></Carousel.Item>
+            <Carousel.Item><Image src={cover} height={500} className='w-100 object-fit-contain' alt={`Main image of the property ${title}`} /></Carousel.Item>
             {
               imglist &&
               imglist.map((x, idx) =>
-                <Carousel.Item key={idx}><Image src={x} height={500} className='w-100 object-fit-contain' /></Carousel.Item>
+                <Carousel.Item key={idx}><Image src={x} height={500} className='w-100 object-fit-contain' alt={`Image ${idx} of the property ${title}`} /></Carousel.Item>
               )
             }
           </Carousel>

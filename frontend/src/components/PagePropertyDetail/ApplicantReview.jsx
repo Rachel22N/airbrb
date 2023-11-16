@@ -35,9 +35,12 @@ function ApplicantReview (props) {
       <h5>Leave A Review</h5>
       { alertToken && <Alert variant='danger' onClose={() => setAlertToken(false)} dismissible>{alertMsg}</Alert> }
       <Row>
-        <Col><Form.Group className='mb-3' controlId='applicant-review-text'>
-          { bid ? <Form.Control as='textarea' rows={2} onChange={e => setComment(e.target.value)} /> : <Form.Control as='textarea' rows={2} disabled /> }
-        </Form.Group></Col>
+        <Col>
+          <Form.Group className='mb-3' controlId='applicant-review-text'>
+            <Form.Label>Comment</Form.Label>
+            { bid ? <Form.Control as='textarea' rows={2} onChange={e => setComment(e.target.value)} /> : <Form.Control as='textarea' rows={2} disabled /> }
+          </Form.Group>
+        </Col>
       </Row>
       <Row>
         <Col>
