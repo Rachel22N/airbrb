@@ -19,7 +19,14 @@ describe('PageManage Test', () => {
         listing: {
           id: 231132,
           title: 'Anyway House',
-          postedOn: '2023-11-15'
+          postedOn: '2023-11-15',
+          address: {
+            street: 'This Street',
+            city: 'That City',
+            state: 'STT',
+            postcode: '1008',
+            country: 'United Nation'
+          }
         }
       }
     }).as('detail');
