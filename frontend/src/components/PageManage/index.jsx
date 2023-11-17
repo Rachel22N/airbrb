@@ -64,7 +64,6 @@ function PageManage () {
   const handleAccept = async (bookingId) => {
     try {
       const response = await bookAccept(userToken, bookingId);
-      // reload this page
       console.log('accept success', response);
       // alert('accept success');
       const updatedBookingDetails = await bookGet(userToken);
@@ -82,39 +81,50 @@ function PageManage () {
       alert('decline success');
       const updatedBookingDetails = await bookGet(userToken);
       setBookingDetails(updatedBookingDetails);
-      // do something such as reload this page
     } catch (error) {
       console.error('Error declining booking:', error);
       alert('Error declining booking:', error);
     }
   };
-  const processedBookings = bookingDetails?.bookings.filter(booking => booking.status === 'accepted' || booking.status === 'declined') || [];
-  const pendingBookings = bookingDetails?.bookings.filter(booking => booking.status !== 'accepted' && booking.status !== 'declined') || [];
+  const isThisBooking = (booking) => { return booking.listingId === listingId }
+  const pendingBookings =
+    bookingDetails?.bookings.filter(
+      (booking) =>
+        booking.status !== 'accepted' &&
+        booking.status !== 'declined' &&
+        isThisBooking(booking)
+    ) || [];
+  const processedBookings =
+    bookingDetails?.bookings.filter(
+      (booking) =>
+        (booking.status === 'accepted' || booking.status === 'declined') &&
+        isThisBooking(booking)
+    ) || [];
 
   return (
     <div>
       <InterfaceHeader />
-      <button onClick={() => navigate('/dashboard')} className="btn btn-outline-danger m-3">
+      <button onClick={() => navigate('/dashboard')} className='btn btn-outline-danger m-3'>
         Back
       </button>
       <div className='container'>
-        <h1 className="my-3">{listingDetails ? listingDetails.listing.title : 'Loading...'}</h1>
-        <p className="mb-3">has been up online for {calculateDaysSinceLaunch()} days</p>
-        <p className="mb-3">This year the property has been booked for: {calculateTotalBookedDaysThisYear()} days</p>
+        <h1 className='my-3'>{listingDetails ? listingDetails.listing.title : 'Loading...'}</h1>
+        <p className='mb-3'>has been up online for {calculateDaysSinceLaunch()} days</p>
+        <p className='mb-3'>This year the property has been booked for: {calculateTotalBookedDaysThisYear()} days</p>
         <div>
-          <h2 className="my-3">booking details</h2>
+          <h2 className='my-3'>booking details</h2>
           {pendingBookings.length > 0
             ? (
                 pendingBookings.map(booking => (
-                  <div key={booking.id} className="card mb-3">
-                    <div className="card-body">
-                      <p className="card-text">Booking id: {booking.id}</p>
-                      <p className="card-text">Date between: {new Date(booking.dateRange.start).toLocaleDateString()} to {new Date(booking.dateRange.end).toLocaleDateString()}</p>
-                      <p className="card-text">Total price: ${booking.totalPrice}</p>
-                      <p className="card-text">Status: {booking.status}</p>
+                  <div key={booking.id} className='card mb-3'>
+                    <div className='card-body'>
+                      <p className='card-text'>Booking id: {booking.id}</p>
+                      <p className='card-text'>Date between: {new Date(booking.dateRange.start).toLocaleDateString()} to {new Date(booking.dateRange.end).toLocaleDateString()}</p>
+                      <p className='card-text'>Total price: ${booking.totalPrice}</p>
+                      <p className='card-text'>Status: {booking.status}</p>
                       <div>
-                        <button onClick={() => handleAccept(booking.id)} className="btn btn-outline-success m-1">Accept</button>
-                        <button onClick={() => handleDecline(booking.id)} className="btn btn-outline-danger m-1">Decline</button>
+                        <button onClick={() => handleAccept(booking.id)} className='btn btn-outline-success m-1'>Accept</button>
+                        <button onClick={() => handleDecline(booking.id)} className='btn btn-outline-danger m-1'>Decline</button>
                       </div>
                     </div>
                   </div>
@@ -124,16 +134,16 @@ function PageManage () {
               <p>No booking message</p>
               )}
         <div>
-          <h2 className="my-3">History</h2>
+          <h2 className='my-3'>History</h2>
           {processedBookings.length > 0
             ? (
                 processedBookings.map(booking => (
-                  <div key={booking.id} className="card mb-3">
-                    <div className="card-body">
-                      <p className="card-text">Booking id: {booking.id}</p>
-                      <p className="card-text">Date between: {new Date(booking.dateRange.start).toLocaleDateString()} to {new Date(booking.dateRange.end).toLocaleDateString()}</p>
-                      <p className="card-text">Total price: ${booking.totalPrice}</p>
-                      <p className="card-text">Booking has been {booking.status}</p>
+                  <div key={booking.id} className='card mb-3'>
+                    <div className='card-body'>
+                      <p className='card-text'>Booking id: {booking.id}</p>
+                      <p className='card-text'>Date between: {new Date(booking.dateRange.start).toLocaleDateString()} to {new Date(booking.dateRange.end).toLocaleDateString()}</p>
+                      <p className='card-text'>Total price: ${booking.totalPrice}</p>
+                      <p className='card-text'>Booking has been {booking.status}</p>
                     </div>
                   </div>
                 ))

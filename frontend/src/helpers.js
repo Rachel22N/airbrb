@@ -42,18 +42,27 @@ export function fromISOTime (iso) {
 
 // referenced from https://stackoverflow.com/questions/750032/reading-file-contents-on-the-client-side-in-javascript-in-various-browsers
 export function fileToObj (fileObj) {
-  if (fileObj) {
+  return new Promise((resolve, reject) => {
+    if (!fileObj) {
+      reject(new Error('File is null or undefined'));
+      return;
+    }
+
     const reader = new FileReader();
-    reader.readAsText(fileObj, 'UTF-8');
+
     reader.onload = function (evt) {
       try {
-        return JSON.parse(evt.target.result);
+        const parsedObj = JSON.parse(evt.target.result);
+        resolve(parsedObj);
       } catch (error) {
-        return null;
+        reject(error);
       }
-    }
+    };
+
     reader.onerror = function (evt) {
-      return null;
-    }
-  }
+      reject(new Error('Error reading the file'));
+    };
+
+    reader.readAsText(fileObj, 'UTF-8');
+  });
 }

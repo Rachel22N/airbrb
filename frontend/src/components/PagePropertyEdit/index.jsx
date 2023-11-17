@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { listDetail, listCreate, listUpdate } from '../../apis';
-import { fileToDataUrl } from '../../helpers'
+import { fileToDataUrl, fileToObj } from '../../helpers'
 import InterfaceHeader from '../InterfaceHeader';
 
 function PagePropertyEdit () {
@@ -106,6 +106,60 @@ function PagePropertyEdit () {
           setAlert(true);
           setAlertMsg(res);
         })
+    }
+  }
+
+  // private: validate uploaded json
+  function validJson (obj) {
+    if (!obj) return false;
+    if (
+      typeof obj.thumbnail === 'string' &&
+      typeof obj.title === 'string' &&
+      obj.address &&
+      typeof obj.address.street === 'string' &&
+      typeof obj.address.city === 'string' &&
+      typeof obj.address.state === 'string' &&
+      typeof obj.address.postcode === 'string' &&
+      typeof obj.address.country === 'string' &&
+      typeof obj.price === 'number' &&
+      obj.metadata &&
+      Array.isArray(obj.metadata.imgList) &&
+      typeof obj.metadata.type === 'string' &&
+      typeof obj.metadata.numBed === 'number' &&
+      typeof obj.metadata.numBath === 'number' &&
+      typeof obj.metadata.numRoom === 'number' &&
+      typeof obj.metadata.wifi === 'boolean' &&
+      typeof obj.metadata.parking === 'boolean' &&
+      typeof obj.metadata.airConditioning === 'boolean' &&
+      typeof obj.metadata.breakfast === 'boolean' &&
+      typeof obj.metadata.pets === 'boolean' &&
+      typeof obj.metadata.spa === 'boolean'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  // private: json input event
+  async function parseJson (file) {
+    try {
+      const obj = await fileToObj(file);
+      console.log(obj);
+      if (!validJson(obj)) {
+        setAlert(true);
+        setAlertMsg('File invalid, or lack of required fields');
+      } else {
+        listCreate(token, obj.title, obj.address, obj.price, obj.thumbnail, obj.metadata)
+          .then((res) => {
+            navigate('/dashboard');
+          })
+          .catch((res) => {
+            setAlert(true);
+            setAlertMsg(res);
+          });
+      }
+    } catch (error) {
+      console.log('[ERR]', error);
     }
   }
 
@@ -242,6 +296,22 @@ function PagePropertyEdit () {
           <Form.Check type='checkbox' id='propertyedit-amenities-breakfast' label='Breakfast Included' checked={aBreakfast} onChange={(e) => setABreakfast(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-pets' label='Pets Allowed' checked={aPets} onChange={(e) => setAPets(e.target.checked)} />
           <Form.Check type='checkbox' id='propertyedit-amenities-spa' label='SPA Facility' checked={aSPA} onChange={(e) => setASPA(e.target.checked)} />
+          {
+            !pid &&
+            <Row className='my-5'>
+              <Col>
+                <h5>Alternative One-click Create</h5>
+                <Form.Group as={Row} className='mb-3' controlId='propertyedit-json'>
+                  <Form.Label column sm='2'>All-in-one JSON</Form.Label>
+                  <Col sm='10'><Form.Control type='file' onChange={e => parseJson(e.target.files[0])} /></Col>
+                  <Form.Text id="propertyedit-json-helper" muted>
+                    Simply upload a JSON file containing all required fields to create the property in one click.
+                    The JSON file should include fields: <b>title</b>, <b>thumbnail</b>, <b>price</b>, <b>address</b> and <b>metadata</b>
+                  </Form.Text>
+                </Form.Group>
+              </Col>
+            </Row>
+          }
           <Row className='my-5'><Col className='d-grid'>
           {
             pid
