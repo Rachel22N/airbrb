@@ -23,7 +23,7 @@ function ItemPropertyGeneric (props) {
             ? <Card.Text className='text-warning'>PENDING</Card.Text>
             : <></>
         }
-        <Link to={`property/${pid}`}><Button variant='primary'>Learn More</Button></Link>
+        <Link to={`property/${pid}`}><Button variant='outline-danger'>Learn More</Button></Link>
       </Card.Body>
     </Card>
   )

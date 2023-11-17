@@ -104,14 +104,14 @@ function ItemPropertyHosted (props) {
           <br /><b>${price}</b>
           <br />{reviews.length} Reviews
         </Card.Text>
-        <Link to={`/property/edit/${pid}`}><Button variant='primary'>Edit</Button></Link>
-        <Link to={`/property/manage/${pid}`}><Button variant='primary'>Manage Booking</Button></Link>
+        <Link to={`/property/edit/${pid}`}><Button variant='outline-primary m-1'>Edit</Button></Link>
+        <Link to={`/property/manage/${pid}`}><Button variant='outline-danger m-1'>Manage Booking</Button></Link>
         {
           publish
-            ? <Button variant='primary' onClick={() => pUnpublish()}>Unpublish</Button>
-            : <Button variant='primary' onClick={() => setDateShow(true)}>Publish</Button>
+            ? <Button variant='outline-dark m-1' onClick={() => pUnpublish()}>Unpublish</Button>
+            : <Button variant='outline-dark m-1' onClick={() => setDateShow(true)}>Publish</Button>
         }
-        <Button variant='primary' onClick={() => pRemove()}>Remove</Button>
+        <Button variant='outline-warning m-1' onClick={() => pRemove()}>Remove</Button>
         { (dateShow && !publish) && <h5>Setup Availabilities</h5> }
         { (dateShow && !publish) && dateInput.map((x, idx) =>
           <Container key={idx}>
@@ -127,10 +127,10 @@ function ItemPropertyHosted (props) {
         ) }
         { dateShow && !publish && (
           <>
-            <Button variant="primary" onClick={() => popDate(new Date(0), new Date(2099, 12, 31))}>
+            <Button variant="outline-success m-1" onClick={() => popDate(new Date(0), new Date(2099, 12, 31))}>
               Add Range
             </Button>
-            <Button variant="primary" onClick={() => pPublish()}>
+            <Button variant="outline-info m-1" onClick={() => pPublish()}>
               Submit
             </Button>
           </>
