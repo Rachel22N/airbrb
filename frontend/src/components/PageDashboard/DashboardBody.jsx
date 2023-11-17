@@ -12,7 +12,7 @@ function DashboardBody () {
   return (
     <Container fluid>
       <Row className='p-5'>
-        <Link to='/property/new'><Col className='d-grid'><Button variant='primary'>Create A New Listing</Button></Col></Link>
+        <Link to='/property/new'><Col className='d-grid'><Button variant='outline-danger'>Create A New Listing</Button></Col></Link>
       </Row>
       <Row className='min-vh-100'>
         <Col className='bg-secondary-subtle p-2'>

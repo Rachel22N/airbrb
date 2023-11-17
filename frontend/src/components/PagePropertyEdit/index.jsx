@@ -315,8 +315,8 @@ function PagePropertyEdit () {
           <Row className='my-5'><Col className='d-grid'>
           {
             pid
-              ? <Button variant='primary' onClick={() => pUpdate()}>Save</Button>
-              : <Button variant='primary' onClick={() => pCreate()}>Create</Button>
+              ? <Button variant='outline-danger' onClick={() => pUpdate()}>Save</Button>
+              : <Button variant='outline-danger' onClick={() => pCreate()}>Create</Button>
           }
           </Col></Row>
         </Form></Col>
