@@ -55,7 +55,9 @@ describe('accept a booking', () => {
     cy.get('input[id="confirmPasswordInput"]').focus().type('1234');
     cy.contains('button', 'Submit').click();
     // go to listing page
-    cy.contains('button', 'Learn More').first().click();
+    cy.contains('div', `sample${rand}`).parent().within(() => {
+      cy.contains('button', 'Learn More').click();
+    })
     cy.get('input[type="date"]').first().focus().type('2023-11-11');
     cy.get('input[type="date"]').eq(1).focus().type('2023-11-13');
     cy.contains('button', 'Book').click();
