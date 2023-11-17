@@ -108,11 +108,14 @@ function PageManage () {
         Back
       </button>
       <div className='container'>
-        <h1 className='my-3'>{listingDetails ? listingDetails.listing.title : 'Loading...'}</h1>
-        <p className='mb-3'>has been up online for {calculateDaysSinceLaunch()} days</p>
+        <h1 className='my-3 font-weight-bold'>{listingDetails ? listingDetails.listing.title : 'Loading...'}</h1>
+        <p className='my-3'>Address: {listingDetails
+          ? `${listingDetails.listing.address.street}, ${listingDetails.listing.address.city}, ${listingDetails.listing.address.state}, ${listingDetails.listing.address.postcode}, ${listingDetails.listing.address.country}`
+          : 'Loading...'}</p>
+        <p className='mb-3'>This property has been up online for {calculateDaysSinceLaunch()} days</p>
         <p className='mb-3'>This year the property has been booked for: {calculateTotalBookedDaysThisYear()} days</p>
         <div>
-          <h2 className='my-3'>booking details</h2>
+          <h2 className='my-3'>Booking Details</h2>
           {pendingBookings.length > 0
             ? (
                 pendingBookings.map(booking => (
@@ -134,7 +137,7 @@ function PageManage () {
               <p>No booking message</p>
               )}
         <div>
-          <h2 className='my-3'>History</h2>
+          <h2 className='my-3'>Booking History</h2>
           {processedBookings.length > 0
             ? (
                 processedBookings.map(booking => (
