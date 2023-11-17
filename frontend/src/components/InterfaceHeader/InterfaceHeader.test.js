@@ -36,14 +36,10 @@ describe('InterfaceHeader', () => {
     localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE2OTk5NDk0MTl9.WxQlgGBn13jH-2x07VaS1SgQNa4QP8XNwuQ7oQF00Rw');
     render(<BrowserRouter><InterfaceHeader /></BrowserRouter>);
 
-    // Click the "Logout" link
     fireEvent.click(screen.getByText('Logout'));
-    // Check if authLogout is called
     expect(authLogout).toHaveBeenCalledTimes(1);
-    // Check if localStorage is cleared
     expect(localStorage.getItem('token')).toBeNull();
     expect(localStorage.getItem('userId')).toBeNull();
-    // Check if navigate is called with '/'
     expect(mockedNavigate).toHaveBeenCalledWith('/');
   });
 });
