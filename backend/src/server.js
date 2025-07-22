@@ -5,14 +5,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 
-import { InputError, AccessError } from './error.js';
-// import swaggerDocument from '../swagger.json';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, '../swagger.json')));
+import { InputError, AccessError } from './error';
+import swaggerDocument from '../swagger.json';
 import {
   getEmailFromAuthorization,
   login,
@@ -34,7 +28,7 @@ import {
   removeBooking,
   acceptBooking,
   declineBooking,
-} from './service.js';
+} from './service';
 
 const app = express();
 
@@ -265,13 +259,12 @@ app.get('/', (req, res) => res.redirect('/docs'));
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// const configData = JSON.parse(fs.readFileSync('../frontend/src/config.json'));
-// const port = 'BACKEND_PORT' in configData ? configData.BACKEND_PORT : 5033;
-const port = process.env.PORT || 5033;
+const configData = JSON.parse(fs.readFileSync('../frontend/src/config.json'));
+const port = 'BACKEND_PORT' in configData ? configData.BACKEND_PORT : 5033;
 
 const server = app.listen(port, () => {
   console.log(`Backend is now listening on port ${port}!`);
   console.log(`For API docs, navigate to http://localhost:${port}`);
 });
 
-// export default server;
+export default server;
