@@ -8,7 +8,6 @@ import morgan from 'morgan';
 import { InputError, AccessError } from './error.js';
 // import swaggerDocument from '../swagger.json';
 // import swaggerDocument from '../swagger.json' assert { type: 'json' };
-import fs from 'fs';
 const swaggerDocument = JSON.parse(fs.readFileSync(new URL('../swagger.json', import.meta.url)));
 
 import {
