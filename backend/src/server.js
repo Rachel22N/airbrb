@@ -6,7 +6,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import { InputError, AccessError } from './error.js';
-import swaggerDocument from '../swagger.json';
+// import swaggerDocument from '../swagger.json';
+import swaggerDocument from '../swagger.json' assert { type: 'json' };
 import {
   getEmailFromAuthorization,
   login,
