@@ -1,12 +1,15 @@
 /* eslint-disable quote-props */
 // backend apis implementations
 
-const fetchDomain = 'localhost'
+// const fetchDomain = 'localhost'
+
+import config from './config.json';
+const fetchDomain = config.BACKEND_URL;
 
 // api base
 const apiPost = (path, body) => {
   return new Promise((resolve, reject) => {
-    fetch('http://' + fetchDomain + ':5005/' + path, {
+    fetch(`${fetchDomain}/${path}`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -26,7 +29,8 @@ const apiPost = (path, body) => {
 
 const apiPostAuth = (path, token, body) => {
   return new Promise((resolve, reject) => {
-    fetch('http://' + fetchDomain + ':5005/' + path, {
+    // fetch('http://' + fetchDomain + ':5005/' + path, {
+    fetch(`${fetchDomain}/${path}`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -86,7 +90,8 @@ const apiGetAuth = (path, token, queryString) => {
 
 const apiPutAuth = (path, token, body) => {
   return new Promise((resolve, reject) => {
-    fetch('http://' + fetchDomain + ':5005/' + path, {
+    // fetch('http://' + fetchDomain + ':5005/' + path, {
+    fetch(`${fetchDomain}/${path}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
@@ -107,7 +112,7 @@ const apiPutAuth = (path, token, body) => {
 
 const apiDeleteAuth = (path, token) => {
   return new Promise((resolve, reject) => {
-    fetch('http://' + fetchDomain + ':5005/' + path, {
+    fetch(`${fetchDomain}/${path}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
